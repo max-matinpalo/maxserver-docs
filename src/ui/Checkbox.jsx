@@ -3,7 +3,7 @@ import styles from './Checkbox.module.css';
 
 
 /**
- * Label with a small square checkbox, like Scalar's "Show Schema".
+ * Label with a small square checkbox, like "Show Schema".
  */
 export function Checkbox({ label, checked, onChange }) {
 	return (

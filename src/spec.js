@@ -151,7 +151,7 @@ export function readSpec(doc) {
 		}))
 		.filter(g => g.operations.length);
 
-	// 4. Anchors, like Scalar: #tag/projects/POST/projects
+	// 4. Anchors like #tag/projects/POST/projects
 	for (const op of operations) {
 		op.id = op.tag ? `tag/${slug(op.tag)}/${op.method}${op.path}` : `operation/${op.method}${op.path}`;
 		op.label = op.summary || `${op.method} ${op.path}`;

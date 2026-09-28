@@ -18,7 +18,7 @@ test('top-level tags set group order and descriptions', () => {
 	assert.equal(spec.groups[0].description, 'Todo items');
 });
 
-test('operation anchors like Scalar', () => {
+test('operation anchors like #tag/projects/POST/projects', () => {
 	const op = readSpec(doc).operations.find(o => o.method === 'POST' && o.path === '/projects');
 	assert.equal(op.id, 'tag/projects/POST/projects');
 	assert.equal(readSpec(doc).groups[2].id, 'tag/projects');

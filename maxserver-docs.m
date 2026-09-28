@@ -20,12 +20,8 @@ SPEC SOURCE
 - Loading, fetch errors, and invalid documents show a clear message.
 
 DESIGN
-- Matches Scalar's colors, sizes, spacing, and 0.5px hairlines, measured
-  from the running reference.
-- Uses the system fonts where Scalar uses Inter and JetBrains Mono.
-- Scalar at http://localhost:3000/docs (~/Desktop/exampleProject) is the
-  layout and behavior reference.
-- Screenshots: ~/Desktop/maxdoc/planning/assets/.
+- Colors, sizes, spacing, and 0.5px hairlines live in src/global.css.
+- Uses the system fonts.
 - Uses px units, flat CSS Modules, and the frontend skill's targets.
 
 SOURCE
@@ -39,11 +35,11 @@ BUILD
   reload.
 - npm run build writes minified dist/maxserver-docs.js and .css for
   embedding.
-- examples/openapi.json is the exampleProject spec that Scalar shows.
+- examples/openapi.json is the example spec for development.
 
 TESTS
 - node --test covers spec reading, examples, and Markdown.
-- The UI is checked in the browser next to Scalar, narrow and wide.
+- The UI is checked in the browser, narrow and wide.
 
 VERSION 1
 - A read-only reference: sidebar and every route, without sending
@@ -119,8 +115,7 @@ VERSION 1
 	- Each model shows its fields like request bodies.
 
 VERSION 2
-- Adds sending real requests from the docs, like Scalar's Test Request.
-- Reference screenshot: api-docs-v2-test-request.webp.
+- Adds sending real requests from the docs.
 
 	REQUEST PANEL
 	- Each operation has a Test request button that opens the panel.

@@ -1,5 +1,5 @@
 /**
- * Builds an example value from a schema, like Scalar's example panel:
+ * Builds an example value from a schema:
  * examples, example, default, const, enum, then a value for the type.
  */
 
