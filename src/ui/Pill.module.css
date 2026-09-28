@@ -1,0 +1,15 @@
+.pill {
+	display: inline-flex;
+	align-items: center;
+	padding: 2px 8px;
+	border: var(--hairline);
+	border-radius: 16px;
+	font-size: 12px;
+	line-height: 14px;
+	white-space: nowrap;
+	color: var(--text-muted);
+}
+
+.required {
+	color: var(--required);
+}

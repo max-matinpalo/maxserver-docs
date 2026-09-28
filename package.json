@@ -1,0 +1,28 @@
+{
+	"name": "maxserver-docs",
+	"version": "0.1.0",
+	"description": "API reference for OpenAPI 3.1 documents, built with Preact",
+	"type": "module",
+	"private": true,
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"test": "node --test"
+	},
+	"browserslist": [
+		"> 0.2%",
+		"last 3 versions",
+		"Firefox ESR",
+		"not dead"
+	],
+	"dependencies": {
+		"preact": "^10.29.8"
+	},
+	"devDependencies": {
+		"@preact/preset-vite": "^2.10.6",
+		"vite": "^8.3.1"
+	}
+}

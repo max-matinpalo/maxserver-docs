@@ -1,0 +1,18 @@
+.type {
+	font-family: var(--font-mono);
+	font-size: 13px;
+	color: var(--text-muted);
+}
+
+.model {
+	font-family: var(--font-mono);
+	font-size: 13px;
+	color: var(--text-muted);
+	text-decoration: underline;
+	text-decoration-color: rgba(117, 117, 117, 0.5);
+	text-underline-offset: 3px;
+}
+
+.model:hover {
+	color: var(--text);
+}

@@ -1,0 +1,80 @@
+.table {
+	width: 100%;
+	border-collapse: collapse;
+	table-layout: fixed;
+}
+
+.table tr + tr td {
+	border-top: var(--hairline);
+}
+
+.check {
+	width: 32px;
+	padding: 0;
+	border-right: var(--hairline);
+	text-align: center;
+}
+
+.cell {
+	padding: 0;
+}
+
+.cell + .cell {
+	border-left: var(--hairline);
+}
+
+.input {
+	display: block;
+	width: 100%;
+	height: 32px;
+	padding: 0 8px;
+	border: 0;
+	background: transparent;
+	color: var(--text);
+	font-family: var(--font-body);
+	font-size: 14px;
+}
+
+.input::placeholder {
+	color: var(--text-faint);
+}
+
+.input:read-only {
+	color: var(--text-muted);
+}
+
+.input:focus {
+	outline: 2px solid var(--accent);
+	outline-offset: -2px;
+}
+
+.box {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	cursor: pointer;
+}
+
+.box input {
+	position: absolute;
+	opacity: 0;
+	width: 1px;
+	height: 1px;
+}
+
+.box span {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 16px;
+	height: 16px;
+	border-radius: 3px;
+	color: var(--text);
+}
+
+.box input:focus-visible + span {
+	outline: 2px solid var(--accent);
+}

@@ -1,0 +1,39 @@
+.responses {
+	margin-top: 24px;
+}
+
+.title {
+	margin: 0;
+	padding-bottom: 12px;
+	border-bottom: var(--hairline);
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 23px;
+}
+
+.head {
+	display: flex;
+	align-items: baseline;
+	gap: 6px;
+	font-size: 13px;
+	line-height: 16px;
+}
+
+.status {
+	font-family: var(--font-mono);
+	font-weight: 600;
+}
+
+.summary {
+	color: var(--text-muted);
+}
+
+.empty {
+	margin: 4px 0 6px;
+	font-size: 14px;
+	color: var(--text-muted);
+}
+
+.description {
+	margin-top: 4px;
+}

@@ -1,0 +1,120 @@
+.empty {
+	margin: 0;
+	padding: 48px 24px;
+	font-size: 14px;
+	color: var(--text-muted);
+	text-align: center;
+}
+
+.error {
+	padding: 16px 12px;
+	font-size: 14px;
+	line-height: 20px;
+	color: var(--text-muted);
+}
+
+.error strong {
+	color: var(--method-delete);
+}
+
+.error p {
+	margin: 6px 0 0;
+}
+
+.summary {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-height: 40px;
+	padding: 0 12px;
+	border-bottom: var(--hairline);
+	font-size: 14px;
+	color: var(--text);
+}
+
+.status {
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.dot {
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+}
+
+.ok {
+	background: var(--method-post);
+}
+
+.bad {
+	background: var(--method-delete);
+}
+
+.headers {
+	margin: 0;
+	font-size: 13px;
+}
+
+.headerRow {
+	display: grid;
+	grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+}
+
+.headerRow + .headerRow {
+	border-top: var(--hairline);
+}
+
+.headerRow dt,
+.headerRow dd {
+	margin: 0;
+	padding: 7px 12px;
+	overflow-wrap: anywhere;
+}
+
+.headerRow dt {
+	color: var(--text-muted);
+	border-right: var(--hairline);
+}
+
+.views {
+	display: flex;
+	justify-content: flex-end;
+	gap: 2px;
+	padding: 6px 12px 0;
+}
+
+.view {
+	padding: 2px 8px;
+	border: 0;
+	border-radius: 3px;
+	background: none;
+	color: var(--text-muted);
+	font-family: var(--font-body);
+	font-size: 13px;
+	cursor: pointer;
+}
+
+.viewActive {
+	background: var(--surface);
+	color: var(--text);
+}
+
+.body {
+	padding: 8px 12px 12px;
+}
+
+.raw {
+	margin: 0;
+	font-family: var(--font-mono);
+	font-size: 13px;
+	line-height: 19px;
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+}
+
+.noBody {
+	margin: 0;
+	font-size: 14px;
+	color: var(--text-muted);
+}

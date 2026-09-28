@@ -1,0 +1,61 @@
+.foldable {
+	position: relative;
+}
+
+.row {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	min-height: 32px;
+	padding: 6px 0;
+	cursor: pointer;
+}
+
+.tall {
+	min-height: 36px;
+	padding: 10px 0;
+	line-height: 16px;
+}
+
+.toggle {
+	position: absolute;
+	left: -25px;
+	top: 50%;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 20px;
+	height: 20px;
+	margin-top: -10px;
+	padding: 0;
+	border: 0;
+	border-radius: 3px;
+	background: none;
+	color: var(--text-muted);
+	cursor: pointer;
+}
+
+.row:hover .toggle {
+	color: var(--text);
+}
+
+.toggle:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 1px;
+}
+
+.title {
+	flex: 1;
+	min-width: 0;
+}
+
+.right {
+	flex: none;
+}
+
+.body {
+	margin-bottom: 6px;
+	padding-left: 16px;
+	border-left: var(--hairline);
+}

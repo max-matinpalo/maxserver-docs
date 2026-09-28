@@ -1,0 +1,68 @@
+/* Colors, sizes, and spacing measured from Scalar (light mode) */
+
+:root {
+	--accent: #0082d0;
+	--background: #ffffff;
+	--surface: #f6f6f6;
+	--surface-hover: #e7e7e7;
+	--border: #dfdfdf;
+	--hairline: 0.5px solid #dfdfdf;
+	--text: #1b1b1b;
+	--text-muted: #757575;
+	--text-faint: #8e8e8e;
+	--font-body: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+	--font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+
+	--required: #ff6605;
+
+	--method-get: #0082d0;
+	--method-post: #069061;
+	--method-put: #ff6605;
+	--method-patch: #edbe20;
+	--method-delete: #ef0006;
+	--method-get-dark: #1ea7ff;
+	--method-post-dark: #00b648;
+	--method-put-dark: #ff8c3a;
+	--method-patch-dark: #ffc93d;
+	--method-delete-dark: #ff4d4f;
+
+	--endpoint-background: #1a1a1a;
+	--endpoint-border: #2d2d2d;
+	--endpoint-path: #a4a4a4;
+	--endpoint-param: #e7e7e7;
+
+	--json-string: #0082d0;
+	--json-number: #069061;
+	--json-literal: #ff6605;
+	--json-punct: #757575;
+
+	--sidebar-width: 288px;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+}
+
+body {
+	margin: 0;
+	background: var(--background);
+	color: var(--text);
+	font-family: var(--font-body);
+	font-size: 16px;
+	line-height: 1.15;
+	-webkit-font-smoothing: antialiased;
+}
+
+a {
+	color: inherit;
+}
+
+code {
+	font-family: var(--font-mono);
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}

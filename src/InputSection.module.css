@@ -1,0 +1,30 @@
+.section {
+	margin-top: 24px;
+}
+
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	padding-bottom: 12px;
+	border-bottom: var(--hairline);
+}
+
+.title {
+	margin: 0;
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 18.4px;
+}
+
+.badges {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	gap: 8px;
+}
+
+.fields {
+	padding-top: 0;
+}

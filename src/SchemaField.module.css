@@ -1,0 +1,54 @@
+.field {
+	display: block;
+}
+
+.row {
+	padding: 6px 0;
+}
+
+.head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	column-gap: 9px;
+	row-gap: 2px;
+	min-height: 20px;
+	font-size: 13px;
+	line-height: 20px;
+}
+
+.name {
+	font-family: var(--font-mono);
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--text);
+	word-break: break-word;
+}
+
+.meta {
+	font-size: 13px;
+	color: var(--text-muted);
+}
+
+.required {
+	font-size: 13px;
+	color: var(--required);
+}
+
+.example {
+	font-size: 13px;
+	color: var(--text-faint);
+	text-decoration: underline dotted;
+	text-underline-offset: 3px;
+	cursor: help;
+}
+
+.preview {
+	font-family: var(--font-mono);
+	font-size: 13px;
+	color: var(--text);
+}
+
+.description {
+	margin: -2px 0 6px;
+}

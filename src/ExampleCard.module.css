@@ -1,0 +1,45 @@
+.card {
+	margin-top: 12px;
+	border: var(--hairline);
+	border-radius: 8px;
+	background: var(--surface);
+	overflow: hidden;
+}
+
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	min-height: 36px;
+	padding-left: 12px;
+	border-bottom: var(--hairline);
+}
+
+.actions {
+	display: flex;
+	align-items: center;
+	flex: none;
+}
+
+.body {
+	max-height: 440px;
+	padding: 8px;
+	overflow: auto;
+}
+
+.empty {
+	margin: 0;
+	padding: 0 4px;
+	font-size: 14px;
+	line-height: 20px;
+	color: var(--text-muted);
+}
+
+.footer {
+	padding: 7px 12px;
+	border-top: var(--hairline);
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 22px;
+}

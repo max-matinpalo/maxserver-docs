@@ -1,0 +1,94 @@
+import { useEffect, useState } from 'preact/hooks';
+import { readSpec } from './spec.js';
+import { DocContext } from './docContext.js';
+import { ClientContext } from './clientContext.js';
+import { serverBase } from './request.js';
+import { useToken } from './useToken.js';
+import { rememberSpec } from './recentSpecs.js';
+import { SpecBar } from './SpecBar.jsx';
+import { useActiveSection } from './useActiveSection.js';
+import { Icon } from './ui/Icon.jsx';
+import { Sidebar } from './Sidebar.jsx';
+import { Introduction } from './Introduction.jsx';
+import { TagSection } from './TagSection.jsx';
+import { Operation } from './Operation.jsx';
+import { Models } from './Models.jsx';
+import styles from './App.module.css';
+
+
+/**
+ * Loads the spec and renders sidebar and content.
+ */
+export function App({ url, specField = true }) {
+	const [state, setState] = useState({ status: 'loading' });
+	const [menuOpen, setMenuOpen] = useState(false);
+	const [token, setToken] = useToken();
+	const activeId = useActiveSection(state.status === 'ready');
+
+	// 1. Load
+	useEffect(() => {
+		fetch(url)
+			.then(r => {
+				if (!r.ok) throw new Error(`Could not load ${url} (HTTP ${r.status}).`);
+				return r.json().catch(() => { throw new Error(`${url} is not valid JSON.`); });
+			})
+			.then(doc => {
+				const model = readSpec(doc);
+				rememberSpec(url);
+				document.title = `${model.info.title} – API Docs`;
+				setState({ status: 'ready', doc, model });
+			})
+			.catch(err => setState({ status: 'error', message: err.message }));
+	}, [url]);
+
+	if (state.status === 'loading') return <p class={styles.message}>Loading API docs…</p>;
+	if (state.status === 'error') {
+		return (
+			<div class={styles.message} role="alert">
+				<strong>The API docs could not be shown.</strong>
+				<p>{state.message}</p>
+				{specField && <SpecBar url={url} />}
+			</div>
+		);
+	}
+
+	// 2. Render
+	const { doc, model } = state;
+	const closeMenu = () => setMenuOpen(false);
+
+	const client = { base: serverBase(doc, url), token, setToken };
+
+	return (
+		<DocContext.Provider value={doc}>
+		<ClientContext.Provider value={client}>
+			<div class={styles.app}>
+				<header class={styles.topbar}>
+					<button type="button" class={styles.menuButton} aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+						aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>
+						<Icon name={menuOpen ? 'close' : 'menu'} size={18} />
+					</button>
+					<span class={styles.topbarTitle}>{model.info.title}</span>
+				</header>
+
+				<aside class={`${styles.sidebar} ${menuOpen ? styles.sidebarOpen : ''}`}>
+					{specField && <SpecBar url={url} />}
+					<Sidebar model={model} activeId={activeId} onNavigate={closeMenu} />
+				</aside>
+				{menuOpen && <div class={styles.backdrop} onClick={closeMenu} />}
+
+				<main class={styles.content}>
+					<Introduction info={model.info} openapi={model.openapi} url={url} auth={model.operations.some(op => op.auth)} />
+					{model.untagged.map(op => <Operation key={op.id} op={op} />)}
+					{model.groups.map(g => (
+						<div key={g.id}>
+							<TagSection group={g} />
+							{g.operations.map(op => <Operation key={op.id} op={op} />)}
+						</div>
+					))}
+					<Models models={model.models} />
+				</main>
+			</div>
+		</ClientContext.Provider>
+		</DocContext.Provider>
+	);
+}

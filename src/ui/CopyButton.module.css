@@ -1,0 +1,22 @@
+.button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 36px;
+	margin-right: 8px;
+	padding: 0;
+	border: 0;
+	background: none;
+	color: var(--text-faint);
+	cursor: pointer;
+}
+
+.button:hover {
+	color: var(--text);
+}
+
+.button:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: -4px;
+}

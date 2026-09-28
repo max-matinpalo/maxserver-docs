@@ -1,0 +1,33 @@
+.models {
+	padding: 72px 0;
+	border-top: 1px solid var(--hairline);
+	max-width: 760px;
+}
+
+.title {
+	margin: 0 0 24px;
+	font-size: 24px;
+	font-weight: 600;
+}
+
+.model {
+	margin-bottom: 16px;
+	border: 1px solid var(--border);
+	border-radius: 8px;
+	scroll-margin-top: 24px;
+}
+
+.name {
+	margin: 0;
+	padding: 10px 16px;
+	border-bottom: 1px solid var(--border);
+	background: var(--surface);
+	font-family: var(--font-mono);
+	font-size: 14px;
+	font-weight: 600;
+	border-radius: 8px 8px 0 0;
+}
+
+.body {
+	padding: 4px 16px 6px 34px;
+}

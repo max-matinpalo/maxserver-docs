@@ -1,0 +1,35 @@
+.bar {
+	display: flex;
+	align-items: center;
+	min-height: 41px;
+	padding: 8px 8px 8px 12px;
+	border: 0.5px solid var(--endpoint-border);
+	border-radius: 8px;
+	background: var(--endpoint-background);
+	overflow-x: auto;
+}
+
+.bar > span {
+	margin-right: 6px;
+	line-height: 19px;
+}
+
+
+.path {
+	flex: 1;
+	min-width: 0;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 19px;
+	color: var(--endpoint-path);
+	white-space: nowrap;
+}
+
+.param {
+	color: var(--endpoint-param);
+}
+
+.test {
+	flex: none;
+	margin-left: 8px;
+}

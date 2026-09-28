@@ -1,0 +1,64 @@
+.overlay {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 100;
+	background: rgba(27, 27, 27, 0.35);
+}
+
+.dialog {
+	position: absolute;
+	top: 60px;
+	right: 24px;
+	bottom: 60px;
+	left: 24px;
+	display: flex;
+	flex-direction: column;
+	border: var(--hairline);
+	border-radius: 8px;
+	background: var(--background);
+	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.18);
+	overflow: hidden;
+}
+
+.dialog:focus {
+	outline: none;
+}
+
+.close {
+	position: absolute;
+	top: 14px;
+	right: 16px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border: 0;
+	border-radius: 50%;
+	background: var(--background);
+	color: var(--text);
+	cursor: pointer;
+}
+
+.close:focus-visible {
+	outline: 2px solid var(--accent);
+}
+
+@media (max-width: 900px) {
+	.dialog {
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		border-radius: 0;
+	}
+
+	.close {
+		top: 8px;
+		right: 8px;
+		z-index: 1;
+	}
+}
