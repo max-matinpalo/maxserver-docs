@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'preact/hooks';
-import { toolId, toolLabel } from './mcp.js';
+import { toolGroups, toolId, toolLabel } from './mcp.js';
 import { MethodBadge } from './ui/MethodBadge.jsx';
 import { SidebarGroup } from './SidebarGroup.jsx';
 import styles from './Sidebar.module.css';
@@ -8,13 +8,15 @@ import styles from './Sidebar.module.css';
 /**
  * REST: Introduction, untagged operations, tag groups, and models; the
  * group holding the active section opens by itself.
- * MCP (when mcp is given): Server, then every tool.
+ * MCP (when mcp is given): Server, then the tool groups.
  */
 export function Sidebar({ model, mcp, activeId, onNavigate }) {
 	const [open, setOpen] = useState(() => new Set());
 
 	// 1. Open the group of the active section
-	const activeGroup = activeId?.startsWith('model/') ? 'models'
+	const mcpGroups = mcp?.status === 'ready' ? toolGroups(mcp.server.tools) : [];
+	const activeGroup = mcp ? mcpGroups.find(g => activeId === g.id || g.tools.some(t => toolId(t) === activeId))?.id
+		: activeId?.startsWith('model/') ? 'models'
 		: model.groups.find(g => activeId === g.id || activeId?.startsWith(`${g.id}/`))?.id;
 
 	useEffect(() => {
@@ -40,12 +42,15 @@ export function Sidebar({ model, mcp, activeId, onNavigate }) {
 
 	// 2. MCP
 	if (mcp) {
-		const tools = mcp.status === 'ready' ? mcp.server.tools : [];
 		return (
 			<nav class={styles.sidebar} aria-label="MCP server">
 				<ul class={styles.list}>
 					{link('mcp', 'Server')}
-					{tools.map(t => link(toolId(t), toolLabel(t), 'TOOL'))}
+					{mcpGroups.map(g => (
+						<SidebarGroup key={g.id} title={g.name} open={open.has(g.id)} onToggle={() => toggle(g.id)}
+							items={g.tools.map(t => ({ id: toolId(t), label: toolLabel(t), method: 'TOOL' }))}
+							activeId={activeId} onNavigate={onNavigate} />
+					))}
 				</ul>
 			</nav>
 		);

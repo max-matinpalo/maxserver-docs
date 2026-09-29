@@ -2,7 +2,8 @@
  * Small safe Markdown for OpenAPI descriptions.
  * Returns a tree of plain objects; Markdown.jsx renders it without innerHTML.
  * Blocks: paragraphs, lists, headings, fenced code.
- * Inline: `code`, **strong**, *em*, [links](url), bare URLs and emails.
+ * Inline: `code`, **strong**, *em*, [links](url), bare URLs and emails,
+ * and all-caps words as strong, like RECEIPTS FIRST (not short ones like VAT).
  */
 
 const SAFE_URL = /^(https?:|mailto:|#|\/|\.{0,2}\/|[^:]*$)/i;
@@ -15,11 +16,19 @@ export function safeUrl(url) {
 
 
 /**
+ * Strong for a run of all-caps words with one of five or more letters.
+ */
+function caps(text) {
+	return /[A-Z]{5}/.test(text) ? { type: 'strong', children: [{ type: 'text', text }] } : { type: 'text', text };
+}
+
+
+/**
  * Inline tokens of one text line.
  */
 export function parseInline(text) {
 	const out = [];
-	const re = /`([^`]+)`|\*\*([^*]+)\*\*|\*([^*]+)\*|\[([^\]]+)\]\(([^)\s]+)\)|(https?:\/\/[^\s<)]+)|([\w.+-]+@[\w-]+\.[\w.-]*\w)/g;
+	const re = /`([^`]+)`|\*\*([^*]+)\*\*|\*([^*]+)\*|\[([^\]]+)\]\(([^)\s]+)\)|(https?:\/\/[^\s<)]+)|([\w.+-]+@[\w-]+\.[\w.-]*\w)|\b([A-Z]{2,}(?: [A-Z]{2,})*)\b/g;
 	let last = 0;
 	let m;
 
@@ -33,7 +42,8 @@ export function parseInline(text) {
 			out.push(href ? { type: 'link', href, children: parseInline(m[4]) } : { type: 'text', text: m[4] });
 		}
 		else if (m[6] !== undefined) out.push({ type: 'link', href: m[6], children: [{ type: 'text', text: m[6] }] });
-		else out.push({ type: 'link', href: `mailto:${m[7]}`, children: [{ type: 'text', text: m[7] }] });
+		else if (m[7] !== undefined) out.push({ type: 'link', href: `mailto:${m[7]}`, children: [{ type: 'text', text: m[7] }] });
+		else out.push(caps(m[8]));
 		last = re.lastIndex;
 	}
 

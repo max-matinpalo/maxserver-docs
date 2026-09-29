@@ -3,7 +3,7 @@ import { readSpec } from './spec.js';
 import { DocContext } from './docContext.js';
 import { ClientContext } from './clientContext.js';
 import { serverBase } from './request.js';
-import { mcpUrl } from './mcp.js';
+import { mcpUrl, toolGroups, toolId } from './mcp.js';
 import { useStored } from './useStored.js';
 import { useMcp } from './useMcp.js';
 import { rememberSpec } from './recentSpecs.js';
@@ -77,7 +77,7 @@ export function App({ url, specField = true }) {
 	const closeMenu = () => setMenuOpen(false);
 
 	const client = { base: serverBase(doc, url), token, setToken };
-	const tools = mcp.status === 'ready' ? mcp.server.tools : [];
+	const groups = mcp.status === 'ready' ? toolGroups(mcp.server.tools) : [];
 
 	// A switch starts the other docs at their top
 	const switchMode = next => {
@@ -129,7 +129,12 @@ export function App({ url, specField = true }) {
 				) : (
 					<main class={styles.content}>
 						<McpServer state={mcp} url={endpoint} onReload={reloadMcp} />
-						{tools.map(tool => <Tool key={tool.name} tool={tool} session={mcp.server.session} />)}
+						{groups.map(g => (
+							<div key={g.id}>
+								<TagSection cardTitle="Tools" group={{ id: g.id, name: g.name, operations: g.tools.map(t => ({ id: toolId(t), method: 'TOOL', path: t.name })) }} />
+								{g.tools.map(tool => <Tool key={tool.name} tool={tool} session={mcp.server.session} />)}
+							</div>
+						))}
 					</main>
 				)}
 			</div>

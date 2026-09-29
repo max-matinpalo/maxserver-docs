@@ -23,6 +23,8 @@ DESIGN
 - Colors, sizes, spacing, and 0.5px hairlines live in src/global.css.
 - Uses the system fonts.
 - Uses px units, flat CSS Modules, and the frontend skill's targets.
+- Descriptions show runs of all-caps words with one of five or more
+  letters in bold, like RECEIPTS FIRST; abbreviations like VAT stay plain.
 
 SOURCE
 - src/ui/ holds reusable UI components, like badges, foldable rows,
@@ -172,8 +174,13 @@ VERSION 3
 	  the endpoint, and Reload.
 	- Cards: the Bearer token, the tools, and the resources.
 
+	GROUPS
+	- Tools group by _meta.group, like Receipts, in first appearance
+	  order; tools without one form a Tools group.
+	- Each group starts with a section listing its tools, like a tag.
+
 	SIDEBAR
-	- Lists Server, then every tool in tools/list order.
+	- Lists Server, then one foldable entry per group.
 	- Entries show the title, else the name, with a TOOL badge.
 	- Links look like #mcp/tool/add_receipt.
 

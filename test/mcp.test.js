@@ -88,3 +88,10 @@ test('resources: bytes, text, and file names', () => {
 	assert.equal(fileName('chatcountant://reports/vat%202026.pdf'), 'vat 2026.pdf');
 	assert.equal(fileName(''), 'download');
 });
+
+
+test('tool groups: _meta.group in first appearance order, the rest in Tools', async () => {
+	const { toolGroups } = await import('../src/mcp.js');
+	const groups = toolGroups([{ name: 'a', _meta: { group: 'Receipts' } }, { name: 'b' }, { name: 'c', _meta: { group: 'Receipts' } }, { name: 'd', _meta: { group: 'Bank lines' } }]);
+	assert.deepEqual(groups.map(g => [g.id, g.name, g.tools.map(t => t.name).join('')]), [['mcp/group/receipts', 'Receipts', 'ac'], ['mcp/group/tools', 'Tools', 'b'], ['mcp/group/bank-lines', 'Bank lines', 'd']]);
+});

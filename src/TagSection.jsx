@@ -4,9 +4,10 @@ import styles from './TagSection.module.css';
 
 
 /**
- * Start of a tag group: name, description, and its operations.
+ * Start of a tag group: name, description, and its operations
+ * (or tools, with cardTitle="Tools").
  */
-export function TagSection({ group }) {
+export function TagSection({ group, cardTitle = 'Operations' }) {
 	return (
 		<section id={group.id} data-anchor class={styles.tag}>
 			<div class={styles.left}>
@@ -14,7 +15,7 @@ export function TagSection({ group }) {
 				<Markdown text={group.description} />
 			</div>
 			<div class={styles.card}>
-				<div class={styles.cardTitle}>Operations</div>
+				<div class={styles.cardTitle}>{cardTitle}</div>
 				<ul class={styles.list}>
 					{group.operations.map(op => (
 						<li key={op.id}>

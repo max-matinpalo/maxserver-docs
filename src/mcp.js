@@ -5,6 +5,7 @@
  */
 
 import { statusText } from './request.js';
+import { slug } from './spec.js';
 
 export const PROTOCOL_VERSION = '2025-06-18';
 const CLIENT_INFO = { name: 'maxserver-docs', version: '3' };
@@ -153,6 +154,20 @@ export async function connect(url, token) {
 
 
 export const toolId = tool => `mcp/tool/${tool.name}`;
+
+
+/**
+ * Tools grouped by _meta.group in first appearance order; ungrouped ones form Tools.
+ */
+export function toolGroups(tools) {
+	const groups = new Map();
+	for (const tool of tools) {
+		const name = typeof tool._meta?.group === 'string' && tool._meta.group.trim() || 'Tools';
+		if (!groups.has(name)) groups.set(name, { id: `mcp/group/${slug(name)}`, name, tools: [] });
+		groups.get(name).tools.push(tool);
+	}
+	return [...groups.values()];
+}
 export const toolLabel = tool => tool.title || tool.annotations?.title || tool.name;
 
 

@@ -28,3 +28,11 @@ test('json tokens', () => {
 	const types = tokenizeJson('{\n  "a": "b",\n  "n": 1,\n  "t": true\n}').filter(t => t.type !== 'punct').map(t => t.type);
 	assert.deepEqual(types, ['key', 'string', 'key', 'number', 'key', 'literal']);
 });
+
+
+test('all-caps runs with a word of five or more letters are strong; abbreviations stay text', () => {
+	const tokens = parseInline('RECEIPTS FIRST. Send the VAT PDF. CONTEXT: JSON-RPC and NEVER guess.');
+	const strong = tokens.filter(t => t.type === 'strong').map(t => t.children[0].text);
+	assert.deepEqual(strong, ['RECEIPTS FIRST', 'CONTEXT', 'NEVER']);
+	assert.equal(tokens.map(t => t.text ?? t.children[0].text).join(''), 'RECEIPTS FIRST. Send the VAT PDF. CONTEXT: JSON-RPC and NEVER guess.');
+});
