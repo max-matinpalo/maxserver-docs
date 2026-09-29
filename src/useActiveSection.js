@@ -7,11 +7,14 @@ const OFFSET = 120;
  * Id of the section at the top of the screen; mirrors it in the hash.
  * Also scrolls to the target of a link once it is rendered: a new page
  * or sections that load later, like MCP tools, change `version`.
- * Arrow down and up bring the next or previous section to the top.
+ * Arrow down and up bring the next or previous section to the top;
+ * past the first or last section they call toNeighbor(-1 or 1).
  */
-export function useActiveSection(ready, version, target) {
+export function useActiveSection(ready, version, target, toNeighbor) {
 	const [activeId, setActiveId] = useState(() => target || 'introduction');
 	const jumpedTo = useRef(null);
+	const neighbor = useRef(toNeighbor);
+	neighbor.current = toNeighbor;
 
 	useEffect(() => {
 		if (!ready) return;
@@ -48,10 +51,10 @@ export function useActiveSection(ready, version, target) {
 			if (e.target.closest?.('input, textarea, select, [contenteditable]') || document.querySelector('[role=dialog]')) return;
 			const current = atTop();
 			const inside = step < 0 && sections[current]?.getBoundingClientRect().top < -10;
-			const target = sections[inside ? current : Math.min(sections.length - 1, Math.max(0, current + step))];
-			if (!target) return;
+			const index = inside ? current : current + step;
 			e.preventDefault();
-			target.scrollIntoView({ behavior: 'instant', block: 'start' });
+			if (index < 0 || index >= sections.length) neighbor.current?.(step);
+			else sections[index].scrollIntoView({ behavior: 'instant', block: 'start' });
 		};
 
 		if (jumpedTo.current === target) update();

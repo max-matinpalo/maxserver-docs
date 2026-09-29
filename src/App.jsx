@@ -8,7 +8,7 @@ import { useStored } from './useStored.js';
 import { useMcp } from './useMcp.js';
 import { useAppearance } from './useAppearance.js';
 import { useHash } from './useHash.js';
-import { isMcpLink, mcpPage, restPage } from './pages.js';
+import { isMcpLink, mcpPage, pageList, restPage } from './pages.js';
 import { ThemeContext } from './themeContext.js';
 import { rememberSpec } from './recentSpecs.js';
 import { SpecBar } from './SpecBar.jsx';
@@ -56,7 +56,14 @@ export function App({ url, specField = true }) {
 	// The one page the link shows
 	const groups = mcp.status === 'ready' ? toolGroups(mcp.server.tools) : [];
 	const page = state.status !== 'ready' ? '' : mode === 'mcp' ? mcpPage(hash, groups) : restPage(hash, state.model);
-	const activeId = useActiveSection(state.status === 'ready', `${mode}/${mcp.status}/${page}`, hash);
+
+	// Arrows past a page's edge open the next page at its top, or the previous at its last section
+	const toNeighbor = step => {
+		const pages = pageList(mode, state.model, groups);
+		const next = pages[pages.findIndex(p => p.id === page) + step];
+		if (next) location.hash = step > 0 ? next.id : next.last;
+	};
+	const activeId = useActiveSection(state.status === 'ready', `${mode}/${mcp.status}/${page}`, hash, toNeighbor);
 
 	// 1. Load
 	useEffect(() => {

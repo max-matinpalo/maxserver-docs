@@ -22,3 +22,16 @@ test('MCP: the group of a tool, else the server', () => {
 	assert.equal(isMcpLink('mcp'), true);
 	assert.equal(isMcpLink('tag/mcp'), false);
 });
+
+
+test('page order with first and last sections', async () => {
+	const { pageList } = await import('../src/pages.js');
+	const rest = { untagged: [], groups: [{ id: 'tag/a', operations: [{ id: 'tag/a/GET/a' }, { id: 'tag/a/PUT/a' }] }, { id: 'tag/b', operations: [] }], models: [{ id: 'model/User' }] };
+	assert.deepEqual(pageList('rest', rest, []), [
+		{ id: 'introduction', last: 'introduction' },
+		{ id: 'tag/a', last: 'tag/a/PUT/a' },
+		{ id: 'tag/b', last: 'tag/b' },
+		{ id: 'models', last: 'model/User' },
+	]);
+	assert.deepEqual(pageList('mcp', rest, groups), [{ id: 'mcp', last: 'mcp' }, { id: 'mcp/group/invoices', last: 'mcp/tool/prepare_invoice' }]);
+});

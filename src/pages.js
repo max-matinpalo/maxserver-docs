@@ -18,3 +18,17 @@ export function restPage(hash, model) {
 export function mcpPage(hash, groups) {
 	return groups.find(g => hash === g.id || g.tools.some(t => toolId(t) === hash))?.id || 'mcp';
 }
+
+
+/**
+ * The pages in order: id (its first section) and last (its last section).
+ */
+export function pageList(mode, model, groups) {
+	const page = (id, items) => ({ id, last: items.at(-1) ?? id });
+	if (mode === 'mcp') return [page('mcp', []), ...groups.map(g => page(g.id, g.tools.map(toolId)))];
+	return [
+		page('introduction', model.untagged.map(op => op.id)),
+		...model.groups.map(g => page(g.id, g.operations.map(op => op.id))),
+		...(model.models.length ? [page('models', model.models.map(m => m.id))] : []),
+	];
+}
