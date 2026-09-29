@@ -1,5 +1,5 @@
 import { Icon } from '../ui/Icon.jsx';
-import { MethodBadge } from '../ui/MethodBadge.jsx';
+import { SidebarLink } from './SidebarLink.jsx';
 import styles from './SidebarGroup.module.css';
 
 
@@ -17,16 +17,7 @@ export function SidebarGroup({ title, items, open, active = false, onToggle, act
 			</button>
 			{open && (
 				<ul class={styles.items}>
-					{items.map(item => (
-						<li key={item.id}>
-							<a href={`#${item.id}`} onClick={onNavigate}
-								class={`${styles.item} ${item.id === activeId ? styles.active : ''}`}
-								aria-current={item.id === activeId ? 'location' : undefined}>
-								<span class={styles.label}>{item.label}</span>
-								{item.method && <MethodBadge method={item.method} short />}
-							</a>
-						</li>
-					))}
+					{items.map(item => <SidebarLink key={item.id} {...item} activeId={activeId} nested onNavigate={onNavigate} />)}
 				</ul>
 			)}
 		</li>

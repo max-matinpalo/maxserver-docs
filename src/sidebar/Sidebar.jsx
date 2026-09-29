@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'preact/hooks';
 import { toolGroups, toolId, toolLabel } from '../mcp/mcp.js';
-import { MethodBadge } from '../ui/MethodBadge.jsx';
 import { SidebarGroup } from './SidebarGroup.jsx';
+import { SidebarLink } from './SidebarLink.jsx';
 import styles from './Sidebar.module.css';
 
 
@@ -34,16 +34,7 @@ export function Sidebar({ model, mcp, activeId, onNavigate }) {
 		setOpen(next);
 	};
 
-	const link = (id, label, method) => (
-		<li key={id}>
-			<a href={`#${id}`} onClick={onNavigate}
-				class={`${styles.link} ${id === activeId ? styles.active : ''}`}
-				aria-current={id === activeId ? 'location' : undefined}>
-				<span class={styles.label}>{label}</span>
-				{method && <MethodBadge method={method} short />}
-			</a>
-		</li>
-	);
+	const link = (id, label, method) => <SidebarLink key={id} id={id} label={label} method={method} activeId={activeId} onNavigate={onNavigate} />;
 
 	// 2. MCP
 	if (mcp) {

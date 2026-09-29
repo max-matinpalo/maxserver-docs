@@ -1,5 +1,6 @@
 import { Markdown } from '../docs/Markdown.jsx';
 import { AuthField } from '../docs/AuthField.jsx';
+import { PageHeader } from '../docs/PageHeader.jsx';
 import { Button } from '../ui/Button.jsx';
 import { MethodBadge } from '../ui/MethodBadge.jsx';
 import { toolId } from './mcp.js';
@@ -19,7 +20,7 @@ export function McpServer({ state, url, onReload }) {
 		return (
 			<section id="mcp" data-anchor class={styles.server}>
 				<div>
-					<h2 class={styles.title}>MCP Server</h2>
+					<PageHeader title="MCP Server" />
 					<p class={styles.endpoint}><MethodBadge method="POST" /> <code>{url}</code></p>
 					{state.status === 'loading' && <p class={styles.muted}>Connecting…</p>}
 					{state.status === 'error' && (
@@ -40,11 +41,7 @@ export function McpServer({ state, url, onReload }) {
 	return (
 		<section id="mcp" data-anchor class={styles.server}>
 			<div>
-				<div class={styles.pills}>
-					{server.version && <span class={styles.pill}>v{server.version}</span>}
-					<span class={styles.pill}>MCP {protocolVersion}</span>
-				</div>
-				<h2 class={styles.title}>{server.title || server.name || 'MCP Server'}</h2>
+				<PageHeader pills={[server.version && `v${server.version}`, `MCP ${protocolVersion}`]} title={server.title || server.name || 'MCP Server'} />
 				<p class={styles.endpoint}><MethodBadge method="POST" /> <code>{url}</code> {reload}</p>
 				<Markdown text={instructions} />
 			</div>

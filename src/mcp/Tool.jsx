@@ -7,6 +7,7 @@ import { InputSection } from '../docs/InputSection.jsx';
 import { SchemaFields } from '../schema/SchemaFields.jsx';
 import { EndpointBar } from '../docs/EndpointBar.jsx';
 import { ExampleCard } from '../docs/ExampleCard.jsx';
+import { Entry } from '../docs/Entry.jsx';
 import { ToolPanel } from './ToolPanel.jsx';
 import styles from './Tool.module.css';
 
@@ -37,29 +38,24 @@ export function Tool({ tool, session }) {
 		...(tool.outputSchema ? [{ status: 'Result', schema: tool.outputSchema, doc: tool.outputSchema, description: 'structuredContent' }] : []),
 	];
 
+	const aside = (
+		<>
+			<EndpointBar method="TOOL" path={tool.name} onTest={() => setTesting(true)} />
+			<ExampleCard responses={examples} />
+		</>
+	);
+
 	return (
-		<section id={toolId(tool)} data-anchor class={styles.tool}>
-			<div class={styles.left}>
-				<h3 class={styles.title}>{toolLabel(tool)}</h3>
-				{hints.length > 0 && (
-					<div class={styles.pills}>
-						{hints.map(hint => <Pill key={hint}>{hint}</Pill>)}
-						{view && <code class={styles.view}>{view}</code>}
-					</div>
-				)}
-				<Markdown text={tool.description || ''} />
-				<InputSection title="Arguments"><Fields schema={tool.inputSchema} empty="No arguments" /></InputSection>
-				<InputSection title="Result"><Fields schema={tool.outputSchema} empty="No outputSchema: the result is its content items" /></InputSection>
-			</div>
-
-			<div class={styles.right}>
-				<div class={styles.sticky}>
-					<EndpointBar method="TOOL" path={tool.name} onTest={() => setTesting(true)} />
-					<ExampleCard responses={examples} />
+		<Entry id={toolId(tool)} title={toolLabel(tool)} aside={aside} panel={testing && <ToolPanel tool={tool} session={session} onClose={() => setTesting(false)} />}>
+			{hints.length > 0 && (
+				<div class={styles.pills}>
+					{hints.map(hint => <Pill key={hint}>{hint}</Pill>)}
+					{view && <code class={styles.view}>{view}</code>}
 				</div>
-			</div>
-
-			{testing && <ToolPanel tool={tool} session={session} onClose={() => setTesting(false)} />}
-		</section>
+			)}
+			<Markdown text={tool.description || ''} />
+			<InputSection title="Arguments"><Fields schema={tool.inputSchema} empty="No arguments" /></InputSection>
+			<InputSection title="Result"><Fields schema={tool.outputSchema} empty="No outputSchema: the result is its content items" /></InputSection>
+		</Entry>
 	);
 }
