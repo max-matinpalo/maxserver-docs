@@ -1,0 +1,31 @@
+.footer {
+	display: flex;
+	align-items: baseline;
+	gap: 12px;
+	padding: 6px 12px 10px;
+	border-top: var(--hairline);
+	font-size: 13px;
+	line-height: 18px;
+}
+
+.invalid {
+	flex: 1;
+	color: var(--method-delete);
+}
+
+.reset {
+	flex: none;
+	padding: 0;
+	border: 0;
+	background: none;
+	color: var(--text-muted);
+	font-family: var(--font-body);
+	font-size: 13px;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+	cursor: pointer;
+}
+
+.reset:hover {
+	color: var(--text);
+}

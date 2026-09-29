@@ -10,6 +10,7 @@ import styles from './ExampleCard.module.css';
 
 /**
  * Example JSON per response status, with copy and a raw schema view.
+ * A response with its own doc resolves refs in it, like a tool schema.
  */
 export function ExampleCard({ responses }) {
 	const doc = useContext(DocContext);
@@ -18,7 +19,7 @@ export function ExampleCard({ responses }) {
 	if (!responses.length) return null;
 
 	const response = responses.find(r => r.status === status) || responses[0];
-	const value = response.schema ? (showSchema ? response.schema : exampleFor(doc, response.schema)) : null;
+	const value = response.schema ? (showSchema ? response.schema : exampleFor(response.doc || doc, response.schema)) : null;
 	const text = value === null ? '' : JSON.stringify(value, null, 2);
 
 	return (

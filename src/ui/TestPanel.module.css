@@ -72,25 +72,6 @@
 	line-height: 16px;
 }
 
-.body {
-	display: block;
-	width: 100%;
-	padding: 10px 12px;
-	border: 0;
-	resize: vertical;
-	background: var(--background);
-	color: var(--text);
-	font-family: var(--font-mono);
-	font-size: 13px;
-	line-height: 19px;
-	tab-size: 2;
-}
-
-.body:focus {
-	outline: 2px solid var(--accent);
-	outline-offset: -2px;
-}
-
 .hint {
 	margin: auto 0 0;
 	padding: 12px;

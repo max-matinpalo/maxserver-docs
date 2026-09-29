@@ -21,36 +21,6 @@
 	margin: 6px 0 0;
 }
 
-.summary {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	min-height: 40px;
-	padding: 0 12px;
-	border-bottom: var(--hairline);
-	font-size: 14px;
-	color: var(--text);
-}
-
-.status {
-	text-decoration: underline;
-	text-underline-offset: 3px;
-}
-
-.dot {
-	width: 7px;
-	height: 7px;
-	border-radius: 50%;
-}
-
-.ok {
-	background: var(--method-post);
-}
-
-.bad {
-	background: var(--method-delete);
-}
-
 .headers {
 	margin: 0;
 	font-size: 13px;

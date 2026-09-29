@@ -6,6 +6,7 @@
 - Reusable UI components live in `src/ui/`; API-docs components in `src/`.
 - Dev server: `npm run dev` at http://localhost:3002.
 - Live requests: run any maxserver app (npx maxserver new, npm run dev) and open its spec with the spec field.
+- Live MCP: set the MCP field to the app's endpoint, like /mcp, and paste a token.
 - Ship to maxserver: npm run build, then copy dist/maxserver-docs.js and .css into maxserver's devdocs/.
   Ask the user where the maxserver repo is.
 - Tests: `npm test` (node --test, logic only). Check the UI in the browser, narrow and wide.

@@ -1,0 +1,39 @@
+.frame {
+	display: block;
+	width: 100%;
+	min-height: 80px;
+	border: 0;
+	background: var(--background);
+}
+
+.uri {
+	padding: 6px 12px;
+	border-top: var(--hairline);
+	font-family: var(--font-mono);
+	font-size: 12px;
+	color: var(--text-faint);
+}
+
+.log {
+	margin: 0;
+	padding: 6px 12px 10px;
+	border-top: var(--hairline);
+	list-style: none;
+	font-family: var(--font-mono);
+	font-size: 12px;
+	line-height: 18px;
+	color: var(--text-muted);
+	overflow-wrap: anywhere;
+}
+
+.note,
+.error {
+	margin: 0;
+	padding: 16px 12px;
+	font-size: 14px;
+	color: var(--text-muted);
+}
+
+.error {
+	color: var(--method-delete);
+}

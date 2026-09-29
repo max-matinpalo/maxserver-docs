@@ -17,9 +17,11 @@
 .put { color: var(--method-put); }
 .patch { color: var(--method-patch); }
 .delete { color: var(--method-delete); }
+.tool { color: var(--method-tool); }
 
 .dark.get { color: var(--method-get-dark); }
 .dark.post { color: var(--method-post-dark); }
 .dark.put { color: var(--method-put-dark); }
 .dark.patch { color: var(--method-patch-dark); }
 .dark.delete { color: var(--method-delete-dark); }
+.dark.tool { color: var(--method-tool-dark); }

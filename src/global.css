@@ -20,11 +20,13 @@
 	--method-put: #ff6605;
 	--method-patch: #edbe20;
 	--method-delete: #ef0006;
+	--method-tool: #7c3aed;
 	--method-get-dark: #1ea7ff;
 	--method-post-dark: #00b648;
 	--method-put-dark: #ff8c3a;
 	--method-patch-dark: #ffc93d;
 	--method-delete-dark: #ff4d4f;
+	--method-tool-dark: #b794ff;
 
 	--endpoint-background: #1a1a1a;
 	--endpoint-border: #2d2d2d;

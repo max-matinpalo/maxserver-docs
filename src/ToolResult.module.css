@@ -1,0 +1,25 @@
+.error {
+	margin: 0;
+	padding: 12px;
+	border-bottom: var(--hairline);
+	font-size: 14px;
+	line-height: 20px;
+	color: var(--method-delete);
+}
+
+.tabs {
+	display: flex;
+	height: 36px;
+	padding: 0 12px;
+	border-bottom: var(--hairline);
+}
+
+.body {
+	padding: 8px 12px 12px;
+}
+
+.empty {
+	margin: 0;
+	font-size: 14px;
+	color: var(--text-muted);
+}

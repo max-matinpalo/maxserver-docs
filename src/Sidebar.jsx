@@ -1,18 +1,20 @@
 import { useEffect, useState } from 'preact/hooks';
+import { toolId, toolLabel } from './mcp.js';
 import { MethodBadge } from './ui/MethodBadge.jsx';
 import { SidebarGroup } from './SidebarGroup.jsx';
 import styles from './Sidebar.module.css';
 
 
 /**
- * Introduction, untagged operations, tag groups, and models.
+ * Introduction, untagged operations, tag groups, MCP tools, and models.
  * The group holding the active section opens by itself.
  */
-export function Sidebar({ model, activeId, onNavigate }) {
+export function Sidebar({ model, tools, activeId, onNavigate }) {
 	const [open, setOpen] = useState(() => new Set());
 
 	// 1. Open the group of the active section
 	const activeGroup = activeId?.startsWith('model/') ? 'models'
+		: activeId === 'mcp' || activeId?.startsWith('mcp/') ? 'mcp'
 		: model.groups.find(g => activeId === g.id || activeId?.startsWith(`${g.id}/`))?.id;
 
 	useEffect(() => {
@@ -47,6 +49,11 @@ export function Sidebar({ model, activeId, onNavigate }) {
 						items={g.operations.map(op => ({ id: op.id, label: op.label, method: op.method }))}
 						activeId={activeId} onNavigate={onNavigate} />
 				))}
+				{tools.length > 0 && (
+					<SidebarGroup title="MCP Tools" open={open.has('mcp')} onToggle={() => toggle('mcp')}
+						items={tools.map(t => ({ id: toolId(t), label: toolLabel(t), method: 'TOOL' }))}
+						activeId={activeId} onNavigate={onNavigate} />
+				)}
 				{model.models.length > 0 && (
 					<SidebarGroup title="Models" open={open.has('models')} onToggle={() => toggle('models')}
 						items={model.models.map(m => ({ id: m.id, label: m.name }))}

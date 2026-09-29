@@ -1,6 +1,7 @@
 import { useState } from 'preact/hooks';
-import { formatSize, prettyJson } from './request.js';
+import { prettyJson } from './request.js';
 import { Section } from './ui/Section.jsx';
+import { ResponseSummary } from './ResponseSummary.jsx';
 import { CodeBlock } from './ui/CodeBlock.jsx';
 import styles from './ResponseView.module.css';
 
@@ -21,8 +22,9 @@ function headerList(headers) {
 
 /**
  * Result of a test request: status, time, size, headers, and body.
+ * summary={false} leaves the status line to the caller.
  */
-export function ResponseView({ result }) {
+export function ResponseView({ result, summary = true }) {
 	const [raw, setRaw] = useState(false);
 
 	// 1. Nothing sent yet, sending, or failed
@@ -44,12 +46,7 @@ export function ResponseView({ result }) {
 
 	return (
 		<div>
-			<div class={styles.summary} aria-live="polite">
-				<span>{Math.round(result.time)}ms</span>
-				<span>{formatSize(result.size)}</span>
-				<span class={styles.status}>{result.code} {result.statusText}</span>
-				<span class={`${styles.dot} ${result.code < 400 ? styles.ok : styles.bad}`} aria-hidden="true" />
-			</div>
+			{summary && <ResponseSummary result={result} />}
 			<Section title="Request Headers" note={result.requestHeaders.length} defaultOpen={false}>
 				{headerList(result.requestHeaders)}
 			</Section>

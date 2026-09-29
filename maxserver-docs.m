@@ -38,7 +38,7 @@ BUILD
 - examples/openapi.json is the example spec for development.
 
 TESTS
-- node --test covers spec reading, examples, and Markdown.
+- node --test covers spec reading, examples, Markdown, and the MCP client.
 - The UI is checked in the browser, narrow and wide.
 
 VERSION 1
@@ -140,6 +140,62 @@ VERSION 2
 	- Request and response headers show collapsed.
 	- Failed requests explain likely causes: server down or CORS.
 	- Escape or the close button closes the panel.
+
+VERSION 3
+- Adds MCP servers: the docs act as an MCP client, as ChatGPT does.
+- Tools are documented from their own MCP definitions, never from OpenAPI.
+
+	MCP PATH
+	- A field at the top of the sidebar sets the MCP endpoint, like /mcp.
+	- A path is relative to the server base; a full URL works too.
+	- The last value is remembered in localStorage; empty hides MCP.
+
+	CONNECTION
+	- Streamable HTTP: one JSON-RPC message per POST, answered as JSON
+	  or an event stream.
+	- Sends initialize, notifications/initialized, tools/list, and
+	  resources/list, following nextCursor pages.
+	- Sends the Bearer token, and the Mcp-Session-Id and
+	  MCP-Protocol-Version headers once known.
+	- The lists are kept until the page reloads or Reload is pressed.
+	- A 401 asks for the Bearer token, with the token field and Reload.
+
+	SERVER SECTION
+	- Shows the server name, version, protocol version, instructions,
+	  the endpoint, Reload, and a card of the resources.
+
+	SIDEBAR
+	- An MCP Tools group follows the tag groups, in tools/list order.
+	- Entries show the title, else the name, with a TOOL badge.
+	- Links look like #mcp/tool/add_receipt.
+
+	TOOL
+	- Left column: title, hint pills, description, Arguments from
+	  inputSchema, and Result from outputSchema.
+	- Hint pills: read-only, destructive, idempotent, and view.
+	- Right column: a dark TOOL and name bar, and an example card with
+	  Arguments and Result tabs.
+	- Schema refs resolve inside the schema itself, like #/$defs/Item.
+
+	TOOL TEST PANEL
+	- A JSON arguments editor starts with the inputSchema example.
+	- Send calls tools/call; Cmd or Ctrl+Enter sends.
+	- Shows time, size, HTTP status, and whether the tool failed.
+	- Tabs: View, Result (structuredContent), Content, and Raw reply.
+	- Content shows text, images, and embedded files to download.
+	- JSON-RPC errors, tool errors, and failed requests read clearly.
+
+	VIEW
+	- A tool whose _meta names a ui:// resource renders it after a
+	  successful call, as an MCP Apps host.
+	- The view HTML comes from resources/read.
+	- It runs in an iframe sandboxed to allow-scripts only, so it
+	  cannot read the stored token.
+	- A CSP from the resource's _meta.ui.csp blocks other network use.
+	- Handles ui/initialize, tool input and result notifications, size
+	  changes, tools/call, resources/read, open-link, download-file,
+	  message, and update-model-context.
+	- A log under the view lists its requests and their outcome.
 
 LATER
 - Dark mode, Copy as Markdown, and search.
