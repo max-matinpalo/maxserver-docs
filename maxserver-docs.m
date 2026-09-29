@@ -47,7 +47,6 @@ TESTS
 VERSION 1
 - A read-only reference: sidebar and every route, without sending
   requests.
-- Light mode only.
 
 	LAYOUT
 	- A left sidebar and one scrolling content column.
@@ -61,7 +60,8 @@ VERSION 1
 	  paths.
 	- Entries show the summary and a colored method badge, in paths
 	  order.
-	- Groups fold; the group of the operation in view opens.
+	- Groups fold; the group of the operation in view opens, with its
+	  title in a heavier weight.
 	- Models list the components.schemas keys.
 	- The entry of the operation in view is highlighted.
 
@@ -213,8 +213,32 @@ VERSION 3
 	  message, and update-model-context.
 	- A log under the view lists its requests and their outcome.
 
+VERSION 4
+- Adds appearance settings, remembered in localStorage.
+
+	SIDEBAR FOOTER
+	- A light and dark toggle, and a settings button that opens a small
+	  dialog.
+
+	SETTINGS
+	- Theme: auto, light, or dark; auto follows the system and its
+	  changes.
+	- Zoom: 50 to 200 percent in 1 percent steps, with CSS zoom on the
+	  page; browsers without CSS zoom keep their own zoom.
+	- Both apply before the first paint.
+
+	SIDEBAR WIDTH
+	- Dragging the sidebar's right edge sets its width, 200 to 480 px.
+	- Arrow keys on the edge change it; double-click restores 288 px.
+	- Narrow screens keep the menu sidebar at the default width.
+
+	DARK MODE
+	- Colors are light and dark tokens in src/global.css.
+	- Views get the theme in hostContext and a host-context-changed
+	  notification when it changes.
+
 LATER
-- Dark mode, Copy as Markdown, and search.
+- Copy as Markdown and search.
 
 LEAVE OUT
 - Ask AI Agent, Generate MCP, code samples, telemetry, and branding.

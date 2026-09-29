@@ -9,7 +9,7 @@
 	font-size: 13px;
 	color: var(--text-muted);
 	text-decoration: underline;
-	text-decoration-color: rgba(117, 117, 117, 0.5);
+	text-decoration-color: var(--underline-muted);
 	text-underline-offset: 3px;
 }
 

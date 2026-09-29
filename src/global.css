@@ -1,6 +1,7 @@
-/* Colors, sizes, and spacing (light mode) */
+/* Colors, sizes, and spacing: light by default, dark under data-theme="dark" */
 
 :root {
+	color-scheme: light;
 	--accent: #0082d0;
 	--background: #ffffff;
 	--surface: #f6f6f6;
@@ -38,7 +39,63 @@
 	--json-literal: #ff6605;
 	--json-punct: #757575;
 
+	--button: #1b1b1b;
+	--button-hover: #000000;
+	--button-text: #ffffff;
+	--button-light: #ffffff;
+	--button-light-hover: #f0f0f0;
+	--button-light-text: #1a1a1a;
+	--button-light-border: rgba(0, 0, 0, 0.1);
+	--overlay: rgba(27, 27, 27, 0.35);
+	--shadow: rgba(0, 0, 0, 0.18);
+	--shadow-soft: rgba(0, 0, 0, 0.06);
+	--underline: rgba(27, 27, 27, 0.3);
+	--underline-muted: rgba(117, 117, 117, 0.5);
+
 	--sidebar-width: 288px;
+}
+
+:root[data-theme="dark"] {
+	color-scheme: dark;
+	--accent: #3aa0ff;
+	--background: #141414;
+	--surface: #1e1e1e;
+	--surface-hover: #2a2a2a;
+	--border: #363636;
+	--hairline: 0.5px solid #3a3a3a;
+	--text: #ececec;
+	--text-muted: #a3a3a3;
+	--text-faint: #7c7c7c;
+
+	--required: #ff8c3a;
+
+	--method-get: #1ea7ff;
+	--method-post: #00b648;
+	--method-put: #ff8c3a;
+	--method-patch: #ffc93d;
+	--method-delete: #ff4d4f;
+	--method-tool: #b794ff;
+
+	--endpoint-background: #0c0c0c;
+	--endpoint-border: #303030;
+
+	--json-string: #4fb3ff;
+	--json-number: #3ccf7a;
+	--json-literal: #ff9a4d;
+	--json-punct: #9a9a9a;
+
+	--button: #ececec;
+	--button-hover: #ffffff;
+	--button-text: #141414;
+	--button-light: #2a2a2a;
+	--button-light-hover: #333333;
+	--button-light-text: #ececec;
+	--button-light-border: rgba(255, 255, 255, 0.12);
+	--overlay: rgba(0, 0, 0, 0.6);
+	--shadow: rgba(0, 0, 0, 0.5);
+	--shadow-soft: rgba(0, 0, 0, 0.3);
+	--underline: rgba(236, 236, 236, 0.3);
+	--underline-muted: rgba(163, 163, 163, 0.5);
 }
 
 html {

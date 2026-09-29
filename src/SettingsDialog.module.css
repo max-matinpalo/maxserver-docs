@@ -1,0 +1,83 @@
+.settings {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+	padding: 18px 20px 22px;
+}
+
+.title {
+	margin: 0;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 24px;
+}
+
+.row {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.label {
+	font-size: 13px;
+	font-weight: 500;
+	color: var(--text-muted);
+}
+
+.zoom {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.range {
+	flex: 1;
+	min-width: 0;
+	accent-color: var(--accent);
+}
+
+.number {
+	width: 64px;
+	height: 28px;
+	padding: 0 6px;
+	border: var(--hairline);
+	border-radius: 5px;
+	background: var(--surface);
+	color: var(--text);
+	font-family: var(--font-mono);
+	font-size: 13px;
+	text-align: right;
+}
+
+.number:focus {
+	outline: 2px solid var(--accent);
+	outline-offset: -1px;
+}
+
+.unit {
+	font-size: 13px;
+	color: var(--text-muted);
+}
+
+.reset {
+	padding: 0;
+	border: 0;
+	background: none;
+	color: var(--text-muted);
+	font-family: var(--font-body);
+	font-size: 13px;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+	cursor: pointer;
+}
+
+.reset:disabled {
+	opacity: 0.4;
+	cursor: default;
+}
+
+.note {
+	margin: 0;
+	font-size: 13px;
+	color: var(--text-muted);
+}

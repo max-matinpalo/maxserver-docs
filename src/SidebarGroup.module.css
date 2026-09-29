@@ -31,6 +31,11 @@
 	color: var(--text);
 }
 
+.current {
+	color: var(--text);
+	font-weight: 600;
+}
+
 .chevron {
 	color: var(--text-muted);
 }

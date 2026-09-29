@@ -1,5 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'preact/hooks';
 import { ClientContext } from './clientContext.js';
+import { ThemeContext } from './themeContext.js';
 import { request, toolView } from './mcp.js';
 import { viewDocument, resourceText } from './mcpView.js';
 import { saveResource } from './saveFile.js';
@@ -15,12 +16,14 @@ const PASSED = ['tools/call', 'resources/read'];
  */
 export function ViewFrame({ tool, args, result, session }) {
 	const { token } = useContext(ClientContext);
+	const theme = useContext(ThemeContext);
 	const frame = useRef(null);
 	const [view, setView] = useState({ status: 'loading' });
 	const [height, setHeight] = useState(160);
 	const [log, setLog] = useState([]);
 	const uri = toolView(tool);
 	const add = line => setLog(lines => [line, ...lines].slice(0, 50));
+	const post = message => frame.current?.contentWindow?.postMessage({ jsonrpc: '2.0', ...message }, '*');
 
 	// 1. The view's HTML, with the CSP its resource declares
 	useEffect(() => {
@@ -35,9 +38,11 @@ export function ViewFrame({ tool, args, result, session }) {
 		return () => { current = false; };
 	}, [uri]);
 
-	// 2. The host side: answer the view's requests
+	// 2. A theme switch reaches an open view
+	useEffect(() => post({ method: 'ui/notifications/host-context-changed', params: { theme } }), [theme]);
+
+	// 3. The host side: answer the view's requests
 	useEffect(() => {
-		const post = message => frame.current?.contentWindow?.postMessage({ jsonrpc: '2.0', ...message }, '*');
 		const answer = (id, value) => post({ id, result: value });
 
 		async function handle({ id, method, params = {} }) {
@@ -46,7 +51,7 @@ export function ViewFrame({ tool, args, result, session }) {
 					protocolVersion: params.protocolVersion,
 					hostInfo: HOST_INFO,
 					hostCapabilities: { serverTools: {}, serverResources: {}, openLinks: {}, downloadFile: {}, logging: {} },
-					hostContext: { theme: 'light', displayMode: 'inline', availableDisplayModes: ['inline'], platform: 'web', toolInfo: { tool } },
+					hostContext: { theme, displayMode: 'inline', availableDisplayModes: ['inline'], platform: 'web', toolInfo: { tool } },
 				});
 			}
 			if (method === 'ui/notifications/initialized') {
@@ -98,7 +103,7 @@ export function ViewFrame({ tool, args, result, session }) {
 		};
 		addEventListener('message', onMessage);
 		return () => removeEventListener('message', onMessage);
-	}, [view, token]);
+	}, [view, token, theme]);
 
 	if (view.status === 'loading') return <p class={styles.note}>Loading {uri}…</p>;
 	if (view.status === 'error') return <p class={styles.error} role="alert">The view could not be loaded: {view.message}</p>;

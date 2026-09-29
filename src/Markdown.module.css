@@ -40,7 +40,7 @@
 .link {
 	color: var(--text);
 	text-decoration: underline;
-	text-decoration-color: rgba(27, 27, 27, 0.3);
+	text-decoration-color: var(--underline);
 	text-underline-offset: 4px;
 }
 

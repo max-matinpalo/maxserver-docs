@@ -1,0 +1,42 @@
+.footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	padding: 8px 12px;
+	border-top: var(--hairline);
+}
+
+.toggle,
+.icon {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	height: 32px;
+	padding: 0 8px;
+	border: 0;
+	border-radius: 3px;
+	background: none;
+	color: var(--text-muted);
+	font-family: var(--font-body);
+	font-size: 14px;
+	cursor: pointer;
+}
+
+.icon {
+	justify-content: center;
+	width: 32px;
+	padding: 0;
+}
+
+.toggle:hover,
+.icon:hover {
+	color: var(--text);
+	background: var(--surface);
+}
+
+.toggle:focus-visible,
+.icon:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: -2px;
+}

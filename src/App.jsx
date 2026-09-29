@@ -6,6 +6,8 @@ import { serverBase } from './request.js';
 import { mcpUrl, toolGroups, toolId } from './mcp.js';
 import { useStored } from './useStored.js';
 import { useMcp } from './useMcp.js';
+import { useAppearance } from './useAppearance.js';
+import { ThemeContext } from './themeContext.js';
 import { rememberSpec } from './recentSpecs.js';
 import { SpecBar } from './SpecBar.jsx';
 import { McpBar } from './McpBar.jsx';
@@ -13,6 +15,8 @@ import { useActiveSection } from './useActiveSection.js';
 import { Icon } from './ui/Icon.jsx';
 import { Segmented } from './ui/Segmented.jsx';
 import { Sidebar } from './Sidebar.jsx';
+import { SidebarFooter } from './SidebarFooter.jsx';
+import { SidebarResizer } from './SidebarResizer.jsx';
 import { Introduction } from './Introduction.jsx';
 import { TagSection } from './TagSection.jsx';
 import { Operation } from './Operation.jsx';
@@ -32,6 +36,7 @@ const MODES = [['rest', 'REST API'], ['mcp', 'MCP']];
 export function App({ url, specField = true }) {
 	const [state, setState] = useState({ status: 'loading' });
 	const [menuOpen, setMenuOpen] = useState(false);
+	const appearance = useAppearance();
 	const [token, setToken] = useStored('maxserver-docs:token');
 	const [savedMode, saveMode] = useStored('maxserver-docs:mode');
 	// A link decides the mode, else the last choice
@@ -95,6 +100,7 @@ export function App({ url, specField = true }) {
 	};
 
 	return (
+		<ThemeContext.Provider value={appearance.shown}>
 		<DocContext.Provider value={doc}>
 		<ClientContext.Provider value={client}>
 			<div class={styles.app}>
@@ -111,6 +117,8 @@ export function App({ url, specField = true }) {
 					{mode === 'rest' && specField && <SpecBar url={url} />}
 					{mode === 'mcp' && <McpBar path={mcpPath} onSubmit={submitMcp} />}
 					<Sidebar model={model} mcp={mode === 'mcp' ? mcp : null} activeId={activeId} onNavigate={closeMenu} />
+					<SidebarFooter appearance={appearance} />
+					<SidebarResizer width={appearance.width} zoom={appearance.zoom} onChange={appearance.setWidth} />
 				</aside>
 				{menuOpen && <div class={styles.backdrop} onClick={closeMenu} />}
 
@@ -140,5 +148,6 @@ export function App({ url, specField = true }) {
 			</div>
 		</ClientContext.Provider>
 		</DocContext.Provider>
+		</ThemeContext.Provider>
 	);
 }

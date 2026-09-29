@@ -4,10 +4,11 @@ import styles from './Dialog.module.css';
 
 
 /**
- * Large modal window over the page. Escape and the close button close it;
- * the page behind does not scroll while it is open.
+ * Modal window over the page, large or small (centered, like settings).
+ * Escape and the close button close it; the page behind does not scroll
+ * while it is open.
  */
-export function Dialog({ label, onClose, onKeyDown, children }) {
+export function Dialog({ label, onClose, onKeyDown, small = false, children }) {
 	const ref = useRef(null);
 
 	useEffect(() => {
@@ -32,12 +33,17 @@ export function Dialog({ label, onClose, onKeyDown, children }) {
 		onKeyDown?.(e);
 	};
 
+	const close = (
+		<button type="button" class={styles.close} aria-label="Close" onClick={onClose}>
+			<Icon name="close" size={16} />
+		</button>
+	);
+
 	return (
 		<div class={styles.overlay} onClick={e => e.target === e.currentTarget && onClose()}>
-			<button type="button" class={styles.close} aria-label="Close" onClick={onClose}>
-				<Icon name="close" size={16} />
-			</button>
-			<div ref={ref} class={styles.dialog} role="dialog" aria-modal="true" aria-label={label} tabIndex={-1} onKeyDown={keyDown}>
+			{!small && close}
+			<div ref={ref} class={`${styles.dialog} ${small ? styles.small : ''}`} role="dialog" aria-modal="true" aria-label={label} tabIndex={-1} onKeyDown={keyDown}>
+				{small && close}
 				{children}
 			</div>
 		</div>

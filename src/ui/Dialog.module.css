@@ -5,7 +5,7 @@
 	bottom: 0;
 	left: 0;
 	z-index: 100;
-	background: rgba(27, 27, 27, 0.35);
+	background: var(--overlay);
 }
 
 .dialog {
@@ -19,7 +19,7 @@
 	border: var(--hairline);
 	border-radius: 8px;
 	background: var(--background);
-	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.18);
+	box-shadow: 0 10px 40px var(--shadow);
 	overflow: hidden;
 }
 
@@ -61,4 +61,21 @@
 		right: 8px;
 		z-index: 1;
 	}
+}
+
+/* After the narrow rules, so a small dialog stays small */
+.small {
+	top: 50%;
+	right: auto;
+	bottom: auto;
+	left: 50%;
+	width: 380px;
+	max-width: calc(100% - 32px);
+	border-radius: 8px;
+	transform: translate(-50%, -50%);
+}
+
+.small .close {
+	top: 10px;
+	right: 10px;
 }

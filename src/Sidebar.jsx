@@ -47,7 +47,7 @@ export function Sidebar({ model, mcp, activeId, onNavigate }) {
 				<ul class={styles.list}>
 					{link('mcp', 'Server')}
 					{mcpGroups.map(g => (
-						<SidebarGroup key={g.id} title={g.name} open={open.has(g.id)} onToggle={() => toggle(g.id)}
+						<SidebarGroup key={g.id} title={g.name} open={open.has(g.id)} active={activeGroup === g.id} onToggle={() => toggle(g.id)}
 							items={g.tools.map(t => ({ id: toolId(t), label: toolLabel(t), method: 'TOOL' }))}
 							activeId={activeId} onNavigate={onNavigate} />
 					))}
@@ -63,12 +63,12 @@ export function Sidebar({ model, mcp, activeId, onNavigate }) {
 				{link('introduction', 'Introduction')}
 				{model.untagged.map(op => link(op.id, op.label, op.method))}
 				{model.groups.map(g => (
-					<SidebarGroup key={g.id} title={g.name} open={open.has(g.id)} onToggle={() => toggle(g.id)}
+					<SidebarGroup key={g.id} title={g.name} open={open.has(g.id)} active={activeGroup === g.id} onToggle={() => toggle(g.id)}
 						items={g.operations.map(op => ({ id: op.id, label: op.label, method: op.method }))}
 						activeId={activeId} onNavigate={onNavigate} />
 				))}
 				{model.models.length > 0 && (
-					<SidebarGroup title="Models" open={open.has('models')} onToggle={() => toggle('models')}
+					<SidebarGroup title="Models" open={open.has('models')} active={activeGroup === 'models'} onToggle={() => toggle('models')}
 						items={model.models.map(m => ({ id: m.id, label: m.name }))}
 						activeId={activeId} onNavigate={onNavigate} />
 				)}
