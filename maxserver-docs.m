@@ -49,7 +49,9 @@ VERSION 1
   requests.
 
 	LAYOUT
-	- A left sidebar and one scrolling content column.
+	- A left sidebar and a content column that shows one page: the
+	  introduction with untagged operations, one tag group, or the models.
+	- Scrolling stays within the page.
 	- Narrow screens hide the sidebar behind a menu button.
 
 	SIDEBAR
@@ -62,15 +64,17 @@ VERSION 1
 	  order.
 	- Groups fold; the group of the operation in view opens, with its
 	  title in a heavier weight.
+	- Opening a group also shows its page.
 	- Models list the components.schemas keys.
 	- The entry of the operation in view is highlighted.
 
 	DEEP LINKS
 	- Operations, tags, and models have hash links, like
 	  #tag/projects/POST/projects.
-	- Opening a link scrolls to its target; scrolling updates the hash.
-	- Arrow down and up bring the next or previous section to the top;
-	  up inside a long section first returns to its start.
+	- Opening a link shows its page and scrolls to its target; scrolling
+	  updates the hash; back and forward move between pages.
+	- Arrow down and up bring the next or previous section of the page to
+	  the top; up inside a long section first returns to its start.
 	- Arrows keep their usual job in fields and dialogs, and with
 	  modifier keys.
 
@@ -182,7 +186,8 @@ VERSION 3
 	GROUPS
 	- Tools group by _meta.group, like Receipts, in first appearance
 	  order; tools without one form a Tools group.
-	- Each group starts with a section listing its tools, like a tag.
+	- Each group is a page, like a tag, starting with a section that
+	  lists its tools; the server section is a page of its own.
 
 	SIDEBAR
 	- Lists Server, then one foldable entry per group.

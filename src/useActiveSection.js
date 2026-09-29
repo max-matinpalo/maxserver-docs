@@ -5,22 +5,23 @@ const OFFSET = 120;
 
 /**
  * Id of the section at the top of the screen; mirrors it in the hash.
- * Also scrolls to the hash target once it is rendered: sections that
- * load later, like MCP tools, change `version` and are found then.
+ * Also scrolls to the target of a link once it is rendered: a new page
+ * or sections that load later, like MCP tools, change `version`.
  * Arrow down and up bring the next or previous section to the top.
  */
-export function useActiveSection(ready, version) {
-	const [activeId, setActiveId] = useState(() => decodeURIComponent(location.hash.slice(1)) || 'introduction');
-	const jumped = useRef(false);
+export function useActiveSection(ready, version, target) {
+	const [activeId, setActiveId] = useState(() => target || 'introduction');
+	const jumpedTo = useRef(null);
 
 	useEffect(() => {
 		if (!ready) return;
 
-		// 1. Jump to a deep link once, when its target exists
-		const hash = decodeURIComponent(location.hash.slice(1));
-		const target = hash && document.getElementById(hash);
-		if (!jumped.current && target) target.scrollIntoView({ behavior: 'instant', block: 'start' });
-		if (target || !hash) jumped.current = true;
+		// 1. Show a link's target once it exists; without one, the page top
+		const el = target && document.getElementById(target);
+		if (jumpedTo.current !== target && (el || !target)) {
+			el ? el.scrollIntoView({ behavior: 'instant', block: 'start' }) : scrollTo(0, 0);
+			jumpedTo.current = target;
+		}
 
 		// 2. Track the section at the top while scrolling
 		const sections = [...document.querySelectorAll('[data-anchor]')];
@@ -32,7 +33,7 @@ export function useActiveSection(ready, version) {
 		let frame = 0;
 		const update = () => {
 			frame = 0;
-			jumped.current = true;
+			jumpedTo.current = target;
 			const current = sections[atTop()]?.id;
 			if (!current) return;
 			setActiveId(current);
@@ -53,7 +54,7 @@ export function useActiveSection(ready, version) {
 			target.scrollIntoView({ behavior: 'instant', block: 'start' });
 		};
 
-		if (jumped.current) update();
+		if (jumpedTo.current === target) update();
 		addEventListener('scroll', onScroll, { passive: true });
 		addEventListener('keydown', onKey);
 		return () => {
@@ -61,7 +62,7 @@ export function useActiveSection(ready, version) {
 			removeEventListener('keydown', onKey);
 			cancelAnimationFrame(frame);
 		};
-	}, [ready, version]);
+	}, [ready, version, target]);
 
 	return activeId;
 }

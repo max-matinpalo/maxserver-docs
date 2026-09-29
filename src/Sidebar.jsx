@@ -23,9 +23,14 @@ export function Sidebar({ model, mcp, activeId, onNavigate }) {
 		if (activeGroup && !open.has(activeGroup)) setOpen(new Set([...open, activeGroup]));
 	}, [activeGroup]);
 
+	// Opening a group also shows its page
 	const toggle = id => {
 		const next = new Set(open);
-		next.has(id) ? next.delete(id) : next.add(id);
+		if (next.has(id)) next.delete(id);
+		else {
+			next.add(id);
+			location.hash = id;
+		}
 		setOpen(next);
 	};
 

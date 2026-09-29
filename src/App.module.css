@@ -19,6 +19,15 @@
 	padding: 12px 12px 0;
 }
 
+.content > :first-child {
+	border-top: 0;
+}
+
+/* The last section can still reach the top of a short page */
+.content > :last-child {
+	min-height: 100vh;
+}
+
 .content {
 	margin-left: var(--sidebar-width);
 	padding: 0 60px 120px;
