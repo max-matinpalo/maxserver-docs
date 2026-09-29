@@ -62,8 +62,8 @@ VERSION 1
 	  paths.
 	- Entries show the summary and a colored method badge, in paths
 	  order.
-	- Groups fold; the group of the operation in view opens, with its
-	  title in a heavier weight.
+	- Groups fold; the group of the page in view opens, with its title in
+	  a heavier weight, and the group open before closes.
 	- Opening a group also shows its page.
 	- Models list the components.schemas keys.
 	- The entry of the operation in view is highlighted.

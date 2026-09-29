@@ -13,14 +13,14 @@ import styles from './Sidebar.module.css';
 export function Sidebar({ model, mcp, activeId, onNavigate }) {
 	const [open, setOpen] = useState(() => new Set());
 
-	// 1. Open the group of the active section
+	// 1. Open the group of the active section; the one open before closes
 	const mcpGroups = mcp?.status === 'ready' ? toolGroups(mcp.server.tools) : [];
 	const activeGroup = mcp ? mcpGroups.find(g => activeId === g.id || g.tools.some(t => toolId(t) === activeId))?.id
 		: activeId?.startsWith('model/') ? 'models'
 		: model.groups.find(g => activeId === g.id || activeId?.startsWith(`${g.id}/`))?.id;
 
 	useEffect(() => {
-		if (activeGroup && !open.has(activeGroup)) setOpen(new Set([...open, activeGroup]));
+		if (activeGroup) setOpen(new Set([activeGroup]));
 	}, [activeGroup]);
 
 	// Opening a group also shows its page
