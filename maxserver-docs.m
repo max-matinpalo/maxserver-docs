@@ -80,6 +80,9 @@ VERSION 1
 	  at its last section.
 	- Arrows keep their usual job in fields and dialogs, and with
 	  modifier keys.
+	- Arrow steps follow the list of sections, not measured positions, so
+	  zoom and browser differences cannot skip or repeat one; positions are
+	  measured only after the reader scrolls.
 
 	INTRODUCTION
 	- Shows title, version, description, and a spec download link.
