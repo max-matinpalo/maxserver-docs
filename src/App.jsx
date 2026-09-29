@@ -66,7 +66,12 @@ export function App({ url, specField = true }) {
 
 	const client = { base: serverBase(doc, url), token, setToken };
 	const tools = mcp.status === 'ready' ? mcp.server.tools : [];
-	const submitMcp = path => path === mcpPath ? reloadMcp() : setMcpPath(path);
+
+	// A submitted MCP path connects (or reconnects) and shows its section
+	const submitMcp = path => {
+		path === mcpPath ? reloadMcp() : setMcpPath(path);
+		setTimeout(() => document.getElementById('mcp')?.scrollIntoView({ behavior: 'instant', block: 'start' }));
+	};
 
 	return (
 		<DocContext.Provider value={doc}>
@@ -83,7 +88,7 @@ export function App({ url, specField = true }) {
 				<aside class={`${styles.sidebar} ${menuOpen ? styles.sidebarOpen : ''}`}>
 					{specField && <SpecBar url={url} />}
 					<McpBar path={mcpPath} onSubmit={submitMcp} />
-					<Sidebar model={model} tools={tools} activeId={activeId} onNavigate={closeMenu} />
+					<Sidebar model={model} mcp={endpoint ? mcp : null} activeId={activeId} onNavigate={closeMenu} />
 				</aside>
 				{menuOpen && <div class={styles.backdrop} onClick={closeMenu} />}
 

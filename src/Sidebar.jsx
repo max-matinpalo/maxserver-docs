@@ -5,11 +5,15 @@ import { SidebarGroup } from './SidebarGroup.jsx';
 import styles from './Sidebar.module.css';
 
 
+const MCP_STATUS = { loading: 'MCP: connecting…', error: 'MCP: not connected' };
+
+
 /**
  * Introduction, untagged operations, tag groups, MCP tools, and models.
- * The group holding the active section opens by itself.
+ * The group holding the active section opens by itself. Until the MCP
+ * server is connected, one entry shows its status.
  */
-export function Sidebar({ model, tools, activeId, onNavigate }) {
+export function Sidebar({ model, mcp, activeId, onNavigate }) {
 	const [open, setOpen] = useState(() => new Set());
 
 	// 1. Open the group of the active section
@@ -49,11 +53,12 @@ export function Sidebar({ model, tools, activeId, onNavigate }) {
 						items={g.operations.map(op => ({ id: op.id, label: op.label, method: op.method }))}
 						activeId={activeId} onNavigate={onNavigate} />
 				))}
-				{tools.length > 0 && (
+				{mcp?.status === 'ready' && (
 					<SidebarGroup title="MCP Tools" open={open.has('mcp')} onToggle={() => toggle('mcp')}
-						items={tools.map(t => ({ id: toolId(t), label: toolLabel(t), method: 'TOOL' }))}
+						items={mcp.server.tools.map(t => ({ id: toolId(t), label: toolLabel(t), method: 'TOOL' }))}
 						activeId={activeId} onNavigate={onNavigate} />
 				)}
+				{mcp && mcp.status !== 'ready' && link('mcp', mcp.unauthorized ? 'MCP: token needed' : MCP_STATUS[mcp.status])}
 				{model.models.length > 0 && (
 					<SidebarGroup title="Models" open={open.has('models')} onToggle={() => toggle('models')}
 						items={model.models.map(m => ({ id: m.id, label: m.name }))}
