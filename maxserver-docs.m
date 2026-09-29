@@ -69,6 +69,10 @@ VERSION 1
 	- Operations, tags, and models have hash links, like
 	  #tag/projects/POST/projects.
 	- Opening a link scrolls to its target; scrolling updates the hash.
+	- Arrow down and up bring the next or previous section to the top;
+	  up inside a long section first returns to its start.
+	- Arrows keep their usual job in fields and dialogs, and with
+	  modifier keys.
 
 	INTRODUCTION
 	- Shows title, version, description, and a spec download link.
