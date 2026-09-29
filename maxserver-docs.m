@@ -75,8 +75,9 @@ VERSION 1
 	  updates the hash; back and forward move between pages.
 	- Arrow down and up bring the next or previous section of the page to
 	  the top; up inside a long section first returns to its start.
-	- Down on a page's last section opens the next page; up on its first
-	  opens the previous page at its last section.
+	- Down on a page's last section opens the next page, also when the
+	  page cannot scroll further; up on its first opens the previous page
+	  at its last section.
 	- Arrows keep their usual job in fields and dialogs, and with
 	  modifier keys.
 

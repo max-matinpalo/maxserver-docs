@@ -36,7 +36,9 @@ export const zoomSupported = () => typeof CSS !== 'undefined' && CSS.supports('z
 export function applyAppearance({ theme, zoom, width }) {
 	const root = document.documentElement;
 	root.dataset.theme = theme;
-	root.style.zoom = zoom === ZOOM.default || !zoomSupported() ? '' : String(zoom / 100);
+	const zoomed = zoom !== ZOOM.default && zoomSupported();
+	root.style.zoom = zoomed ? String(zoom / 100) : '';
+	root.style.setProperty('--zoom', zoomed ? String(zoom / 100) : '1');
 	root.style.setProperty('--sidebar-width', `${width}px`);
 }
 

@@ -23,9 +23,9 @@
 	border-top: 0;
 }
 
-/* The last section can still reach the top of a short page */
+/* The last section can still reach the top of a short page; CSS zoom scales vh too */
 .content > :last-child {
-	min-height: 100vh;
+	min-height: calc(100vh / var(--zoom, 1));
 }
 
 .content {

@@ -53,8 +53,12 @@ export function useActiveSection(ready, version, target, toNeighbor) {
 			const inside = step < 0 && sections[current]?.getBoundingClientRect().top < -10;
 			const index = inside ? current : current + step;
 			e.preventDefault();
-			if (index < 0 || index >= sections.length) neighbor.current?.(step);
-			else sections[index].scrollIntoView({ behavior: 'instant', block: 'start' });
+			if (index < 0 || index >= sections.length) return neighbor.current?.(step);
+
+			// At the bottom already, the rest cannot reach the top: go on to the next page
+			const before = scrollY;
+			sections[index].scrollIntoView({ behavior: 'instant', block: 'start' });
+			if (step > 0 && scrollY === before) neighbor.current?.(step);
 		};
 
 		if (jumpedTo.current === target) update();
