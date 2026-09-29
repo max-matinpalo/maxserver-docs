@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { exampleFor } from '../src/example.js';
+import { exampleFor } from '../src/schema/example.js';
 
 const doc = JSON.parse(fs.readFileSync(new URL('../examples/openapi.json', import.meta.url)));
 

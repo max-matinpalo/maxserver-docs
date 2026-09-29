@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mcpUrl, mcpHeaders, readReply, replyError, connect, toolHints, toolView, toolLabel } from '../src/mcp.js';
-import { viewCsp, viewDocument, resourceBytes, resourceText, fileName } from '../src/mcpView.js';
+import { mcpUrl, mcpHeaders, readReply, replyError, connect, toolHints, toolView, toolLabel } from '../src/mcp/mcp.js';
+import { viewCsp, viewDocument, resourceBytes, resourceText, fileName } from '../src/mcp/mcpView.js';
 
 
 test('endpoint: a path joins the server base, a URL stays', () => {
@@ -91,7 +91,7 @@ test('resources: bytes, text, and file names', () => {
 
 
 test('tool groups: _meta.group in first appearance order, the rest in Tools', async () => {
-	const { toolGroups } = await import('../src/mcp.js');
+	const { toolGroups } = await import('../src/mcp/mcp.js');
 	const groups = toolGroups([{ name: 'a', _meta: { group: 'Receipts' } }, { name: 'b' }, { name: 'c', _meta: { group: 'Receipts' } }, { name: 'd', _meta: { group: 'Bank lines' } }]);
 	assert.deepEqual(groups.map(g => [g.id, g.name, g.tools.map(t => t.name).join('')]), [['mcp/group/receipts', 'Receipts', 'ac'], ['mcp/group/tools', 'Tools', 'b'], ['mcp/group/bank-lines', 'Bank lines', 'd']]);
 });

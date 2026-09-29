@@ -1,8 +1,8 @@
 import { render } from 'preact';
 import { App } from './App.jsx';
-import { specUrl } from './specUrl.js';
-import { readRecent } from './recentSpecs.js';
-import { applyAppearance, effectiveTheme, readAppearance, systemDark } from './appearance.js';
+import { specUrl } from './rest/specUrl.js';
+import { readRecent } from './rest/recentSpecs.js';
+import { applyAppearance, effectiveTheme, readAppearance, systemDark } from './settings/appearance.js';
 import './global.css';
 
 // Theme, zoom, and sidebar width before the first paint

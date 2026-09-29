@@ -1,4 +1,4 @@
-import { tokenizeJson } from '../json.js';
+import { tokenizeJson } from './json.js';
 import styles from './CodeBlock.module.css';
 
 

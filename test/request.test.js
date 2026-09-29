@@ -1,8 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { readSpec } from '../src/spec.js';
-import { serverBase, initialInputs, buildUrl, buildRequest, formatSize, prettyJson } from '../src/request.js';
+import { readSpec } from '../src/rest/spec.js';
+import { serverBase, initialInputs, buildUrl, buildRequest } from '../src/rest/request.js';
+import { formatSize, prettyJson } from '../src/docs/http.js';
 
 const doc = JSON.parse(fs.readFileSync(new URL('../examples/openapi.json', import.meta.url)));
 const ops = readSpec(doc).operations;

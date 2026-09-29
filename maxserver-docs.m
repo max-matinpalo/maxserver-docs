@@ -28,9 +28,16 @@ DESIGN
   paragraph, like WHEN.; abbreviations like VAT stay plain.
 
 SOURCE
-- src/ui/ holds reusable UI components, like badges, foldable rows,
-  tabs, code blocks, and copy buttons.
-- Other src/ components are specific to API docs and build on src/ui/.
+- The src/ top level holds only main.jsx, App.jsx, global.css,
+  contexts.js, and useStored.js.
+- src/ui/ holds reusable UI components that know nothing about APIs, like
+  badges, tabs, dialogs, and code blocks.
+- src/schema/ shows JSON Schemas; src/docs/ holds blocks both sides use.
+- src/rest/ is the OpenAPI side; src/mcp/ is the MCP side.
+- src/sidebar/ holds navigation: pages, links, and arrow keys.
+- src/settings/ holds theme, zoom, and the settings dialog.
+- A file lives in the folder of what it is about; logic sits next to the
+  components that use it.
 - One component per .jsx file, with its CSS Module next to it.
 
 BUILD

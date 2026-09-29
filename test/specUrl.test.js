@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { specUrl } from '../src/specUrl.js';
-import { readRecent, rememberSpec } from '../src/recentSpecs.js';
+import { specUrl } from '../src/rest/specUrl.js';
+import { readRecent, rememberSpec } from '../src/rest/recentSpecs.js';
 
 const at = search => ({ search, href: `http://localhost:3002/${search}` });
 const root = dataset => ({ dataset });

@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { clampWidth, clampZoom, effectiveTheme, readAppearance, themeSetting } from '../src/appearance.js';
+import { clampWidth, clampZoom, effectiveTheme, readAppearance, themeSetting } from '../src/settings/appearance.js';
 
 
 test('zoom and width: whole numbers within their range, else the default', () => {

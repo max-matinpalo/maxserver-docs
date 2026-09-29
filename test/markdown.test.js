@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { parseMarkdown, parseInline, safeUrl } from '../src/markdown.js';
-import { tokenizeJson } from '../src/json.js';
+import { parseMarkdown, parseInline, safeUrl } from '../src/docs/markdown.js';
+import { tokenizeJson } from '../src/ui/json.js';
 
 
 test('inline code, strong, em, links, emails', () => {
