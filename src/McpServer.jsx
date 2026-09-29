@@ -7,8 +7,9 @@ import styles from './McpServer.module.css';
 
 
 /**
- * Start of the MCP part: what initialize said, the endpoint, Reload,
- * and the tools and resources; while connecting or failing, the reason.
+ * Start of the MCP docs: what initialize said, the endpoint, Reload, and
+ * cards for the token, tools, and resources; while connecting or
+ * failing, the reason.
  */
 export function McpServer({ state, url, onReload }) {
 	const reload = <Button variant="light" onClick={onReload}>Reload</Button>;
@@ -48,6 +49,10 @@ export function McpServer({ state, url, onReload }) {
 				<Markdown text={instructions} />
 			</div>
 			<div class={styles.cards}>
+				<div class={styles.card}>
+					<div class={styles.cardTitle}>Authentication</div>
+					<div class={styles.token}><AuthField /></div>
+				</div>
 				<div class={styles.card}>
 					<div class={styles.cardTitle}>Tools <span class={styles.count}>{tools.length}</span></div>
 					<ul class={styles.list}>

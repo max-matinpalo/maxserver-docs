@@ -145,10 +145,16 @@ VERSION 3
 - Adds MCP servers: the docs act as an MCP client, as ChatGPT does.
 - Tools are documented from their own MCP definitions, never from OpenAPI.
 
+	MODE
+	- A REST API and MCP switch at the top of the sidebar shows one of
+	  them, never both.
+	- A link opens the docs it points into; without one, the last choice.
+	- MCP connects the first time it is shown.
+
 	MCP PATH
-	- A field at the top of the sidebar sets the MCP endpoint, like /mcp.
+	- In MCP, a field below the switch sets the endpoint, default /mcp.
 	- A path is relative to the server base; a full URL works too.
-	- The last value is remembered in localStorage; empty hides MCP.
+	- The last value is remembered in localStorage.
 	- Enter connects, or reconnects, and jumps to the server section.
 
 	CONNECTION
@@ -163,14 +169,13 @@ VERSION 3
 
 	SERVER SECTION
 	- Shows the server name, version, protocol version, instructions,
-	  the endpoint, Reload, and a card of the resources.
+	  the endpoint, and Reload.
+	- Cards: the Bearer token, the tools, and the resources.
 
 	SIDEBAR
-	- An MCP Tools group follows the tag groups, in tools/list order.
+	- Lists Server, then every tool in tools/list order.
 	- Entries show the title, else the name, with a TOOL badge.
 	- Links look like #mcp/tool/add_receipt.
-	- Until connected, one entry shows the status, like MCP: token
-	  needed, and links to the server section.
 
 	TOOL
 	- Left column: title, hint pills, description, Arguments from

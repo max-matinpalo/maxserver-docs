@@ -15,6 +15,10 @@
 	background: var(--background);
 }
 
+.mode {
+	padding: 12px 12px 0;
+}
+
 .content {
 	margin-left: var(--sidebar-width);
 	padding: 0 60px 120px;
@@ -100,7 +104,11 @@
 		background: rgba(27, 27, 27, 0.3);
 	}
 
-	.content {
+	.mode {
+	padding: 12px 12px 0;
+}
+
+.content {
 		margin-left: 0;
 		padding: 0 28px 80px;
 	}

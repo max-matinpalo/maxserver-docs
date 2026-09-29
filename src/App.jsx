@@ -11,6 +11,7 @@ import { SpecBar } from './SpecBar.jsx';
 import { McpBar } from './McpBar.jsx';
 import { useActiveSection } from './useActiveSection.js';
 import { Icon } from './ui/Icon.jsx';
+import { Segmented } from './ui/Segmented.jsx';
 import { Sidebar } from './Sidebar.jsx';
 import { Introduction } from './Introduction.jsx';
 import { TagSection } from './TagSection.jsx';
@@ -21,17 +22,28 @@ import { Models } from './Models.jsx';
 import styles from './App.module.css';
 
 
+const MODES = [['rest', 'REST API'], ['mcp', 'MCP']];
+
+
 /**
- * Loads the spec and the MCP server, and renders sidebar and content.
+ * Loads the spec and renders the REST API or the MCP server: sidebar
+ * and content, never both.
  */
 export function App({ url, specField = true }) {
 	const [state, setState] = useState({ status: 'loading' });
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [token, setToken] = useStored('maxserver-docs:token');
-	const [mcpPath, setMcpPath] = useStored('maxserver-docs:mcp');
-	const endpoint = state.status === 'ready' && mcpPath ? mcpUrl(serverBase(state.doc, url), mcpPath) : '';
+	const [savedMode, saveMode] = useStored('maxserver-docs:mode');
+	// A link decides the mode, else the last choice
+	const [mode, setMode] = useState(() => location.hash ? (location.hash.startsWith('#mcp') ? 'mcp' : 'rest') : savedMode || 'rest');
+	const [mcpShown, setMcpShown] = useState(mode === 'mcp');
+	const [savedPath, setMcpPath] = useStored('maxserver-docs:mcp');
+	const mcpPath = savedPath || '/mcp';
+
+	// MCP connects the first time it is shown, then keeps its lists
+	const endpoint = state.status === 'ready' && mcpShown ? mcpUrl(serverBase(state.doc, url), mcpPath) : '';
 	const [mcp, reloadMcp] = useMcp(endpoint, token);
-	const activeId = useActiveSection(state.status === 'ready', mcp.status);
+	const activeId = useActiveSection(state.status === 'ready', `${mode}/${mcp.status}`);
 
 	// 1. Load
 	useEffect(() => {
@@ -67,9 +79,18 @@ export function App({ url, specField = true }) {
 	const client = { base: serverBase(doc, url), token, setToken };
 	const tools = mcp.status === 'ready' ? mcp.server.tools : [];
 
+	// A switch starts the other docs at their top
+	const switchMode = next => {
+		setMode(next);
+		saveMode(next === 'mcp' ? 'mcp' : '');
+		if (next === 'mcp') setMcpShown(true);
+		history.replaceState(null, '', `#${next === 'mcp' ? 'mcp' : 'introduction'}`);
+		scrollTo(0, 0);
+	};
+
 	// A submitted MCP path connects (or reconnects) and shows its section
 	const submitMcp = path => {
-		path === mcpPath ? reloadMcp() : setMcpPath(path);
+		(path || '/mcp') === mcpPath ? reloadMcp() : setMcpPath(path);
 		setTimeout(() => document.getElementById('mcp')?.scrollIntoView({ behavior: 'instant', block: 'start' }));
 	};
 
@@ -86,25 +107,31 @@ export function App({ url, specField = true }) {
 				</header>
 
 				<aside class={`${styles.sidebar} ${menuOpen ? styles.sidebarOpen : ''}`}>
-					{specField && <SpecBar url={url} />}
-					<McpBar path={mcpPath} onSubmit={submitMcp} />
-					<Sidebar model={model} mcp={endpoint ? mcp : null} activeId={activeId} onNavigate={closeMenu} />
+					<div class={styles.mode}><Segmented options={MODES} value={mode} onChange={switchMode} label="Documentation" /></div>
+					{mode === 'rest' && specField && <SpecBar url={url} />}
+					{mode === 'mcp' && <McpBar path={mcpPath} onSubmit={submitMcp} />}
+					<Sidebar model={model} mcp={mode === 'mcp' ? mcp : null} activeId={activeId} onNavigate={closeMenu} />
 				</aside>
 				{menuOpen && <div class={styles.backdrop} onClick={closeMenu} />}
 
-				<main class={styles.content}>
-					<Introduction info={model.info} openapi={model.openapi} url={url} auth={model.operations.some(op => op.auth)} />
-					{model.untagged.map(op => <Operation key={op.id} op={op} />)}
-					{model.groups.map(g => (
-						<div key={g.id}>
-							<TagSection group={g} />
-							{g.operations.map(op => <Operation key={op.id} op={op} />)}
-						</div>
-					))}
-					{endpoint && <McpServer state={mcp} url={endpoint} onReload={reloadMcp} />}
-					{tools.map(tool => <Tool key={tool.name} tool={tool} session={mcp.server.session} />)}
-					<Models models={model.models} />
-				</main>
+				{mode === 'rest' ? (
+					<main class={styles.content}>
+						<Introduction info={model.info} openapi={model.openapi} url={url} auth={model.operations.some(op => op.auth)} />
+						{model.untagged.map(op => <Operation key={op.id} op={op} />)}
+						{model.groups.map(g => (
+							<div key={g.id}>
+								<TagSection group={g} />
+								{g.operations.map(op => <Operation key={op.id} op={op} />)}
+							</div>
+						))}
+						<Models models={model.models} />
+					</main>
+				) : (
+					<main class={styles.content}>
+						<McpServer state={mcp} url={endpoint} onReload={reloadMcp} />
+						{tools.map(tool => <Tool key={tool.name} tool={tool} session={mcp.server.session} />)}
+					</main>
+				)}
 			</div>
 		</ClientContext.Provider>
 		</DocContext.Provider>

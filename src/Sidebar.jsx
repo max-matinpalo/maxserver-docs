@@ -5,20 +5,16 @@ import { SidebarGroup } from './SidebarGroup.jsx';
 import styles from './Sidebar.module.css';
 
 
-const MCP_STATUS = { loading: 'MCP: connecting…', error: 'MCP: not connected' };
-
-
 /**
- * Introduction, untagged operations, tag groups, MCP tools, and models.
- * The group holding the active section opens by itself. Until the MCP
- * server is connected, one entry shows its status.
+ * REST: Introduction, untagged operations, tag groups, and models; the
+ * group holding the active section opens by itself.
+ * MCP (when mcp is given): Server, then every tool.
  */
 export function Sidebar({ model, mcp, activeId, onNavigate }) {
 	const [open, setOpen] = useState(() => new Set());
 
 	// 1. Open the group of the active section
 	const activeGroup = activeId?.startsWith('model/') ? 'models'
-		: activeId === 'mcp' || activeId?.startsWith('mcp/') ? 'mcp'
 		: model.groups.find(g => activeId === g.id || activeId?.startsWith(`${g.id}/`))?.id;
 
 	useEffect(() => {
@@ -42,7 +38,20 @@ export function Sidebar({ model, mcp, activeId, onNavigate }) {
 		</li>
 	);
 
-	// 2. Render
+	// 2. MCP
+	if (mcp) {
+		const tools = mcp.status === 'ready' ? mcp.server.tools : [];
+		return (
+			<nav class={styles.sidebar} aria-label="MCP server">
+				<ul class={styles.list}>
+					{link('mcp', 'Server')}
+					{tools.map(t => link(toolId(t), toolLabel(t), 'TOOL'))}
+				</ul>
+			</nav>
+		);
+	}
+
+	// 3. REST
 	return (
 		<nav class={styles.sidebar} aria-label="API reference">
 			<ul class={styles.list}>
@@ -53,12 +62,6 @@ export function Sidebar({ model, mcp, activeId, onNavigate }) {
 						items={g.operations.map(op => ({ id: op.id, label: op.label, method: op.method }))}
 						activeId={activeId} onNavigate={onNavigate} />
 				))}
-				{mcp?.status === 'ready' && (
-					<SidebarGroup title="MCP Tools" open={open.has('mcp')} onToggle={() => toggle('mcp')}
-						items={mcp.server.tools.map(t => ({ id: toolId(t), label: toolLabel(t), method: 'TOOL' }))}
-						activeId={activeId} onNavigate={onNavigate} />
-				)}
-				{mcp && mcp.status !== 'ready' && link('mcp', mcp.unauthorized ? 'MCP: token needed' : MCP_STATUS[mcp.status])}
 				{model.models.length > 0 && (
 					<SidebarGroup title="Models" open={open.has('models')} onToggle={() => toggle('models')}
 						items={model.models.map(m => ({ id: m.id, label: m.name }))}

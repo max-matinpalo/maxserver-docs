@@ -16,11 +16,10 @@ export function useActiveSection(ready, version) {
 		if (!ready) return;
 
 		// 1. Jump to a deep link once, when its target exists
-		const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
-		if (!jumped.current && target) {
-			target.scrollIntoView({ behavior: 'instant', block: 'start' });
-			jumped.current = true;
-		}
+		const hash = decodeURIComponent(location.hash.slice(1));
+		const target = hash && document.getElementById(hash);
+		if (!jumped.current && target) target.scrollIntoView({ behavior: 'instant', block: 'start' });
+		if (target || !hash) jumped.current = true;
 
 		// 2. Track the section at the top while scrolling
 		const sections = [...document.querySelectorAll('[data-anchor]')];
@@ -39,6 +38,7 @@ export function useActiveSection(ready, version) {
 		};
 		const onScroll = () => { if (!frame) frame = requestAnimationFrame(update); };
 
+		if (jumped.current) update();
 		addEventListener('scroll', onScroll, { passive: true });
 		return () => {
 			removeEventListener('scroll', onScroll);
