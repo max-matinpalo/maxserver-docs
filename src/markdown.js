@@ -3,7 +3,8 @@
  * Returns a tree of plain objects; Markdown.jsx renders it without innerHTML.
  * Blocks: paragraphs, lists, headings, fenced code.
  * Inline: `code`, **strong**, *em*, [links](url), bare URLs and emails,
- * and all-caps words as strong, like RECEIPTS FIRST (not short ones like VAT).
+ * and all-caps words as strong, like RECEIPTS FIRST or a leading label like
+ * WHEN. (not short ones like VAT).
  */
 
 const SAFE_URL = /^(https?:|mailto:|#|\/|\.{0,2}\/|[^:]*$)/i;
@@ -16,10 +17,11 @@ export function safeUrl(url) {
 
 
 /**
- * Strong for a run of all-caps words with one of five or more letters.
+ * Strong for a run of all-caps words with one of five or more letters,
+ * or for a label that starts the text and ends with . or :
  */
-function caps(text) {
-	return /[A-Z]{5}/.test(text) ? { type: 'strong', children: [{ type: 'text', text }] } : { type: 'text', text };
+function caps(text, label) {
+	return label || /[A-Z]{5}/.test(text) ? { type: 'strong', children: [{ type: 'text', text }] } : { type: 'text', text };
 }
 
 
@@ -43,7 +45,7 @@ export function parseInline(text) {
 		}
 		else if (m[6] !== undefined) out.push({ type: 'link', href: m[6], children: [{ type: 'text', text: m[6] }] });
 		else if (m[7] !== undefined) out.push({ type: 'link', href: `mailto:${m[7]}`, children: [{ type: 'text', text: m[7] }] });
-		else out.push(caps(m[8]));
+		else out.push(caps(m[8], m.index === 0 && /^[.:]/.test(text.slice(re.lastIndex))));
 		last = re.lastIndex;
 	}
 

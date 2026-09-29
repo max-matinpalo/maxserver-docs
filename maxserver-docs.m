@@ -24,7 +24,8 @@ DESIGN
 - Uses the system fonts.
 - Uses px units, flat CSS Modules, and the frontend skill's targets.
 - Descriptions show runs of all-caps words with one of five or more
-  letters in bold, like RECEIPTS FIRST; abbreviations like VAT stay plain.
+  letters in bold, like RECEIPTS FIRST, and a label that starts a
+  paragraph, like WHEN.; abbreviations like VAT stay plain.
 
 SOURCE
 - src/ui/ holds reusable UI components, like badges, foldable rows,

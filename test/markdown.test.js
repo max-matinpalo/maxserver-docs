@@ -35,4 +35,8 @@ test('all-caps runs with a word of five or more letters are strong; abbreviation
 	const strong = tokens.filter(t => t.type === 'strong').map(t => t.children[0].text);
 	assert.deepEqual(strong, ['RECEIPTS FIRST', 'CONTEXT', 'NEVER']);
 	assert.equal(tokens.map(t => t.text ?? t.children[0].text).join(''), 'RECEIPTS FIRST. Send the VAT PDF. CONTEXT: JSON-RPC and NEVER guess.');
+
+	// A short label that starts the paragraph
+	assert.equal(parseInline('WHEN. Only once. Not VAT.')[0].type, 'strong');
+	assert.equal(parseInline('VAT is due.')[0].type, 'text');
 });
