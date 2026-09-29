@@ -27,37 +27,38 @@ export function useActiveSection(ready, version, target, toNeighbor) {
 		}
 
 		// 2. Track the section at the top while scrolling
-		const sections = [...document.querySelectorAll('[data-anchor]')];
-		const atTop = () => {
-			let index = 0;
-			sections.forEach((el, i) => { if (el.getBoundingClientRect().top - OFFSET <= 0) index = i; });
-			return index;
-		};
+		// Read fresh each time: a new page replaces the sections
+		const sections = () => [...document.querySelectorAll('[data-anchor]')];
 		let frame = 0;
 		const update = () => {
 			frame = 0;
 			jumpedTo.current = target;
-			const current = sections[atTop()]?.id;
+			let current = null;
+			for (const el of sections()) if (el.getBoundingClientRect().top - OFFSET <= 0 || !current) current = el.id;
 			if (!current) return;
 			setActiveId(current);
 			if (decodeURIComponent(location.hash.slice(1)) !== current) history.replaceState(null, '', `#${current}`);
 		};
 		const onScroll = () => { if (!frame) frame = requestAnimationFrame(update); };
 
-		// 3. Arrow keys, except in fields, dialogs, and with modifiers
+		// 3. Arrow keys, except in fields, dialogs, and with modifiers: down brings the
+		// first section below the top edge up, up the last one above it (the start of the
+		// section in view, else the one before); the top edge is where scrollIntoView puts it
 		const onKey = e => {
 			const step = e.key === 'ArrowDown' ? 1 : e.key === 'ArrowUp' ? -1 : 0;
 			if (!step || e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
 			if (e.target.closest?.('input, textarea, select, [contenteditable]') || document.querySelector('[role=dialog]')) return;
-			const current = atTop();
-			const inside = step < 0 && sections[current]?.getBoundingClientRect().top < -10;
-			const index = inside ? current : current + step;
 			e.preventDefault();
-			if (index < 0 || index >= sections.length) return neighbor.current?.(step);
+
+			const zoom = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--zoom')) || 1;
+			const offset = el => el.getBoundingClientRect().top - (parseFloat(getComputedStyle(el).scrollMarginTop) || 0) * zoom;
+			const list = sections();
+			const next = step > 0 ? list.find(el => offset(el) > 2) : list.findLast(el => offset(el) < -2);
+			if (!next) return neighbor.current?.(step);
 
 			// At the bottom already, the rest cannot reach the top: go on to the next page
 			const before = scrollY;
-			sections[index].scrollIntoView({ behavior: 'instant', block: 'start' });
+			next.scrollIntoView({ behavior: 'instant', block: 'start' });
 			if (step > 0 && scrollY === before) neighbor.current?.(step);
 		};
 
